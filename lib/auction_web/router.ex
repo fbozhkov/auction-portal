@@ -32,13 +32,19 @@ defmodule AuctionWeb.Router do
     get "/", PageController, :home
 
     live "/listings", ListingsLive
-    live "/listings/all", ListingLive.Index, :index
+
+
+  end
+
+  scope "/admin", AuctionWeb do
+    pipe_through :browser
+
+    live "/listings", ListingLive.Index, :index
     live "/listings/new", ListingLive.Index, :new
     live "/listings/:id/edit", ListingLive.Index, :edit
 
     live "/listings/:id", ListingLive.Show, :show
     live "/listings/:id/show/edit", ListingLive.Show, :edit
-
   end
 
   # Other scopes may use custom stacks.

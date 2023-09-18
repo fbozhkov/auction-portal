@@ -1,7 +1,7 @@
 <.header>
   Listing Listings
   <:actions>
-    <.link patch={~p"/listings/new"}>
+    <.link patch={~p"/admin/listings/new"}>
       <.button>New Listing</.button>
     </.link>
   </:actions>
@@ -10,7 +10,7 @@
 <.table
   id="listings"
   rows={@streams.listings}
-  row_click={fn {_id, listing} -> JS.navigate(~p"/listings/#{listing}") end}
+  row_click={fn {_id, listing} -> JS.navigate(~p"/admin/listings/#{listing}") end}
 >
   <:col :let={{_id, listing}} label="Make"><%= listing.make %></:col>
   <:col :let={{_id, listing}} label="Model"><%= listing.model %></:col>
@@ -24,9 +24,9 @@
   <:col :let={{_id, listing}} label="Minimum price"><%= listing.minimum_price %></:col>
   <:action :let={{_id, listing}}>
     <div class="sr-only">
-      <.link navigate={~p"/listings/#{listing}"}>Show</.link>
+      <.link navigate={~p"/admin/listings/#{listing}"}>Show</.link>
     </div>
-    <.link patch={~p"/listings/#{listing}/edit"}>Edit</.link>
+    <.link patch={~p"/admin/listings/#{listing}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, listing}}>
     <.link
@@ -38,13 +38,13 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="listing-modal" show on_cancel={JS.patch(~p"/listings")}>
+<.modal :if={@live_action in [:new, :edit]} id="listing-modal" show on_cancel={JS.patch(~p"/admin/listings")}>
   <.live_component
     module={AuctionWeb.ListingLive.FormComponent}
     id={@listing.id || :new}
     title={@page_title}
     action={@live_action}
     listing={@listing}
-    patch={~p"/listings"}
+    patch={~p"/admin/listings"}
   />
 </.modal>
