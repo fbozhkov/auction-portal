@@ -1,0 +1,35 @@
+<.header>
+  Listing <%= @listing.id %>
+  <:subtitle>This is a listing record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/listings/#{@listing}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit listing</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Make"><%= @listing.make %></:item>
+  <:item title="Model"><%= @listing.model %></:item>
+  <:item title="Year"><%= @listing.year %></:item>
+  <:item title="Odometer"><%= @listing.odometer %></:item>
+  <:item title="Engine"><%= @listing.engine %></:item>
+  <:item title="Transmission"><%= @listing.transmission %></:item>
+  <:item title="Fuel"><%= @listing.fuel %></:item>
+  <:item title="Color"><%= @listing.color %></:item>
+  <:item title="End date"><%= @listing.end_date %></:item>
+  <:item title="Minimum price"><%= @listing.minimum_price %></:item>
+</.list>
+
+<.back navigate={~p"/listings"}>Back to listings</.back>
+
+<.modal :if={@live_action == :edit} id="listing-modal" show on_cancel={JS.patch(~p"/listings/#{@listing}")}>
+  <.live_component
+    module={AuctionWeb.ListingLive.FormComponent}
+    id={@listing.id}
+    title={@page_title}
+    action={@live_action}
+    listing={@listing}
+    patch={~p"/listings/#{@listing}"}
+  />
+</.modal>

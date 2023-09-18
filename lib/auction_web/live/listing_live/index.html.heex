@@ -1,0 +1,50 @@
+<.header>
+  Listing Listings
+  <:actions>
+    <.link patch={~p"/listings/new"}>
+      <.button>New Listing</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="listings"
+  rows={@streams.listings}
+  row_click={fn {_id, listing} -> JS.navigate(~p"/listings/#{listing}") end}
+>
+  <:col :let={{_id, listing}} label="Make"><%= listing.make %></:col>
+  <:col :let={{_id, listing}} label="Model"><%= listing.model %></:col>
+  <:col :let={{_id, listing}} label="Year"><%= listing.year %></:col>
+  <:col :let={{_id, listing}} label="Odometer"><%= listing.odometer %></:col>
+  <:col :let={{_id, listing}} label="Engine"><%= listing.engine %></:col>
+  <:col :let={{_id, listing}} label="Transmission"><%= listing.transmission %></:col>
+  <:col :let={{_id, listing}} label="Fuel"><%= listing.fuel %></:col>
+  <:col :let={{_id, listing}} label="Color"><%= listing.color %></:col>
+  <:col :let={{_id, listing}} label="End date"><%= listing.end_date %></:col>
+  <:col :let={{_id, listing}} label="Minimum price"><%= listing.minimum_price %></:col>
+  <:action :let={{_id, listing}}>
+    <div class="sr-only">
+      <.link navigate={~p"/listings/#{listing}"}>Show</.link>
+    </div>
+    <.link patch={~p"/listings/#{listing}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, listing}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: listing.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="listing-modal" show on_cancel={JS.patch(~p"/listings")}>
+  <.live_component
+    module={AuctionWeb.ListingLive.FormComponent}
+    id={@listing.id || :new}
+    title={@page_title}
+    action={@live_action}
+    listing={@listing}
+    patch={~p"/listings"}
+  />
+</.modal>

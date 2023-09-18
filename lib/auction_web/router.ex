@@ -18,9 +18,27 @@ defmodule AuctionWeb.Router do
   end
 
   scope "/", AuctionWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :authenticated,
+      on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}] do
+        live "/listings/new", ListingLive.Index, :new
+      end
+  end
+
+  scope "/", AuctionWeb do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/listings", ListingsLive
+    live "/listings/all", ListingLive.Index, :index
+    live "/listings/new", ListingLive.Index, :new
+    live "/listings/:id/edit", ListingLive.Index, :edit
+
+    live "/listings/:id", ListingLive.Show, :show
+    live "/listings/:id/show/edit", ListingLive.Show, :edit
+
   end
 
   # Other scopes may use custom stacks.

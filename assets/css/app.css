@@ -3,3 +3,58 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+h1 {
+    @apply text-center text-slate-900 font-extrabold text-3xl;
+}
+
+.nav {
+    @apply flex justify-between; 
+}
+
+#logo {
+    @apply p-8
+}
+
+img {
+    @apply w-24;
+}
+
+.auth-buttons {
+    @apply flex gap-4 content-center items-center p-8;
+}
+
+/* Listings */
+
+#listings {
+    @apply mt-8 max-w-6xl mx-auto;
+}
+
+#listings .listings {
+    @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
+}
+
+#listings .card{
+    @apply max-w-md rounded bg-white overflow-hidden shadow-lg;
+}
+
+#listings .card img {
+    @apply w-full;
+}
+
+#listings .card .details {
+    @apply px-4 py-4;
+}
+
+#listings .card .details h3 {
+    @apply text-gray-900 font-bold text-lg mb-2;
+}
+
+#listings .card .details p {
+    @apply text-gray-900 text-sm mb-2;
+}
+
+#listings .card .details .bid {
+    @apply text-gray-900 border-t-2 text-sm pt-2 mb-2;
+}
+
