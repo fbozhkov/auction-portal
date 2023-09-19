@@ -12,9 +12,11 @@ defmodule AuctionWeb.ListingsLive do
       <div class="listings">
         <%= for listing <- @listings do %>
           <div class="card">
-            <div class="thumbnail">
-              <img src={~p"/images/car-logo.png"} %>
-            </div>
+            <.link patch={~p"/listings/#{listing.id}"}>
+              <div class="thumbnail">
+                <img src={~p"/images/car-logo.png"} %>
+              </div>
+            </.link>
             <div class="details">
               <h3><%=listing.make%> <%=listing.model%> </h3>
               <p><%=listing.engine%> <%=listing.fuel%></p>

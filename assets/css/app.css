@@ -58,3 +58,62 @@ img {
     @apply text-gray-900 border-t-2 text-sm pt-2 mb-2;
 }
 
+/* Listing Details */
+
+#listing-details {
+    @apply mt-8 mx-auto;
+}
+
+#listing-details h2 {
+    @apply text-slate-900 font-extrabold text-3xl pb-2
+            border-b-2 border-gray-200 mb-4;
+}
+
+#listing-details .wrapper {
+    @apply flex;
+}   
+
+#listing-details .images {
+    @apply basis-2/5 grow-[2];
+}
+
+#listing-details img {
+    @apply w-full;
+}
+
+
+#listing-details .border-container {
+    @apply basis-1/4 h-fit border-2 border-gray-200 rounded-lg ml-3 p-2;
+}
+
+#listing-details .border-container .btn {
+    @apply w-full text-center text-sm mb-2 mt-4;
+}
+
+#listing-details .border-container .dollar {
+    @apply flex flex-wrap content-center mr-2;
+}
+
+#listing-details .border-container input {
+    @apply rounded;
+}
+
+#listing-details h3 {
+    @apply font-bold text-xl border-b border-gray-100 mb-2;
+}
+
+#listing-details .row {
+    @apply flex border-b border-gray-100 pb-2 pt-2 ;
+}
+
+#listing-details label {
+    @apply w-fit min-w-[38%] max-w-full ;
+}
+
+#listing-details span {
+    @apply w-full;
+}
+
+#listing-details .bidding {
+
+}

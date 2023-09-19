@@ -32,6 +32,7 @@ defmodule AuctionWeb.Router do
     get "/", PageController, :home
 
     live "/listings", ListingsLive
+    live "/listings/:id", ListingDetailsLive
 
 
   end
