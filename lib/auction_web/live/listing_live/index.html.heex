@@ -10,18 +10,30 @@
 <.table
   id="listings"
   rows={@streams.listings}
-  row_click={fn {_id, listing} -> JS.navigate(~p"/admin/listings/#{listing}") end}
+  row_click={
+    fn {_id, listing} -> JS.navigate(~p"/admin/listings/#{listing}") end
+  }
 >
   <:col :let={{_id, listing}} label="Make"><%= listing.make %></:col>
   <:col :let={{_id, listing}} label="Model"><%= listing.model %></:col>
   <:col :let={{_id, listing}} label="Year"><%= listing.year %></:col>
-  <:col :let={{_id, listing}} label="Odometer"><%= listing.odometer %></:col>
-  <:col :let={{_id, listing}} label="Engine"><%= listing.engine %></:col>
-  <:col :let={{_id, listing}} label="Transmission"><%= listing.transmission %></:col>
+  <:col :let={{_id, listing}} label="Odometer">
+    <%= listing.odometer %>
+  </:col>
+  <:col :let={{_id, listing}} label="Engine">
+    <%= listing.engine %>
+  </:col>
+  <:col :let={{_id, listing}} label="Transmission">
+    <%= listing.transmission %>
+  </:col>
   <:col :let={{_id, listing}} label="Fuel"><%= listing.fuel %></:col>
   <:col :let={{_id, listing}} label="Color"><%= listing.color %></:col>
-  <:col :let={{_id, listing}} label="End date"><%= listing.end_date %></:col>
-  <:col :let={{_id, listing}} label="Minimum price"><%= listing.minimum_price %></:col>
+  <:col :let={{_id, listing}} label="End date">
+    <%= listing.end_date %>
+  </:col>
+  <:col :let={{_id, listing}} label="Minimum price">
+    <%= listing.minimum_price %>
+  </:col>
   <:action :let={{_id, listing}}>
     <div class="sr-only">
       <.link navigate={~p"/admin/listings/#{listing}"}>Show</.link>
@@ -30,7 +42,9 @@
   </:action>
   <:action :let={{id, listing}}>
     <.link
-      phx-click={JS.push("delete", value: %{id: listing.id}) |> hide("##{id}")}
+      phx-click={
+        JS.push("delete", value: %{id: listing.id}) |> hide("##{id}")
+      }
       data-confirm="Are you sure?"
     >
       Delete
@@ -38,7 +52,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="listing-modal" show on_cancel={JS.patch(~p"/admin/listings")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="listing-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/listings")}
+>
   <.live_component
     module={AuctionWeb.ListingLive.FormComponent}
     id={@listing.id || :new}

@@ -2,7 +2,10 @@
   Listing <%= @listing.id %>
   <:subtitle>This is a listing record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/admin/listings/#{@listing}/show/edit"} phx-click={JS.push_focus()}>
+    <.link
+      patch={~p"/admin/listings/#{@listing}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
       <.button>Edit listing</.button>
     </.link>
   </:actions>
@@ -23,7 +26,12 @@
 
 <.back navigate={~p"/admin/listings"}>Back to listings</.back>
 
-<.modal :if={@live_action == :edit} id="listing-modal" show on_cancel={JS.patch(~p"/admin/listings/#{@listing}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="listing-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/listings/#{@listing}")}
+>
   <.live_component
     module={AuctionWeb.ListingLive.FormComponent}
     id={@listing.id}

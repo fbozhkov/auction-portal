@@ -9,7 +9,9 @@ defmodule AuctionWeb.ListingLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage listing records in your database.</:subtitle>
+        <:subtitle>
+          Use this form to manage listing records in your database.
+        </:subtitle>
       </.header>
 
       <.simple_form
@@ -24,11 +26,23 @@ defmodule AuctionWeb.ListingLive.FormComponent do
         <.input field={@form[:year]} type="number" label="Year" />
         <.input field={@form[:odometer]} type="number" label="Odometer" />
         <.input field={@form[:engine]} type="text" label="Engine" />
-        <.input field={@form[:transmission]} type="text" label="Transmission" />
+        <.input
+          field={@form[:transmission]}
+          type="text"
+          label="Transmission"
+        />
         <.input field={@form[:fuel]} type="text" label="Fuel" />
         <.input field={@form[:color]} type="text" label="Color" />
-        <.input field={@form[:end_date]} type="datetime-local" label="End date" />
-        <.input field={@form[:minimum_price]} type="number" label="Minimum price" />
+        <.input
+          field={@form[:end_date]}
+          type="datetime-local"
+          label="End date"
+        />
+        <.input
+          field={@form[:minimum_price]}
+          type="number"
+          label="Minimum price"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Listing</.button>
         </:actions>

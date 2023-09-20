@@ -14,17 +14,17 @@ defmodule AuctionWeb.ListingsLive do
           <div class="card">
             <.link patch={~p"/listings/#{listing.id}"}>
               <div class="thumbnail">
-                <img src={~p"/images/car-logo.png"} %>
+                <img src={~p"/images/car-logo.png"} % />
               </div>
             </.link>
             <div class="details">
-              <h3><%=listing.make%> <%=listing.model%> </h3>
-              <p><%=listing.engine%> <%=listing.fuel%></p>
-              <p><%=listing.year%> / <%=listing.odometer%> km</p>
-              <p><%=listing.transmission%></p>
+              <h3><%= listing.make %> <%= listing.model %></h3>
+              <p><%= listing.engine %> <%= listing.fuel %></p>
+              <p><%= listing.year %> / <%= listing.odometer %> km</p>
+              <p><%= listing.transmission %></p>
               <div class="bid">
-                <p><%=listing.end_date%></p>
-                <p><%=listing.minimum_price%></p>
+                <p><%= listing.end_date %></p>
+                <p><%= listing.minimum_price %></p>
               </div>
             </div>
           </div>
