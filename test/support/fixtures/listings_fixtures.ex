@@ -26,4 +26,18 @@ defmodule Auction.ListingsFixtures do
 
     listing
   end
+
+  @doc """
+  Generate a bid.
+  """
+  def bid_fixture(attrs \\ %{}) do
+    {:ok, bid} =
+      attrs
+      |> Enum.into(%{
+        bid: 42
+      })
+      |> Auction.Listings.create_bid()
+
+    bid
+  end
 end

@@ -4,9 +4,42 @@ defmodule AuctionWeb.ListingLiveTest do
   import Phoenix.LiveViewTest
   import Auction.ListingsFixtures
 
-  @create_attrs %{color: "some color", end_date: "2023-09-14T11:07:00Z", engine: "some engine", fuel: "some fuel", make: "some make", minimum_price: 42, model: "some model", odometer: 42, transmission: "some transmission", year: 42}
-  @update_attrs %{color: "some updated color", end_date: "2023-09-15T11:07:00Z", engine: "some updated engine", fuel: "some updated fuel", make: "some updated make", minimum_price: 43, model: "some updated model", odometer: 43, transmission: "some updated transmission", year: 43}
-  @invalid_attrs %{color: nil, end_date: nil, engine: nil, fuel: nil, make: nil, minimum_price: nil, model: nil, odometer: nil, transmission: nil, year: nil}
+  @create_attrs %{
+    color: "some color",
+    end_date: "2023-09-14T11:07:00Z",
+    engine: "some engine",
+    fuel: "some fuel",
+    make: "some make",
+    minimum_price: 42,
+    model: "some model",
+    odometer: 42,
+    transmission: "some transmission",
+    year: 42
+  }
+  @update_attrs %{
+    color: "some updated color",
+    end_date: "2023-09-15T11:07:00Z",
+    engine: "some updated engine",
+    fuel: "some updated fuel",
+    make: "some updated make",
+    minimum_price: 43,
+    model: "some updated model",
+    odometer: 43,
+    transmission: "some updated transmission",
+    year: 43
+  }
+  @invalid_attrs %{
+    color: nil,
+    end_date: nil,
+    engine: nil,
+    fuel: nil,
+    make: nil,
+    minimum_price: nil,
+    model: nil,
+    odometer: nil,
+    transmission: nil,
+    year: nil
+  }
 
   defp create_listing(_) do
     listing = listing_fixture()

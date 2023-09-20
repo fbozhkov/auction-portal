@@ -1,10 +1,30 @@
 defmodule AuctionWeb.ListingDetailsLive do
   use AuctionWeb, :live_view
+  import AuctionWeb.UserAuth
+  import Ecto.Changeset
 
   alias Auction.Listings
+  alias Auction.Listings.Listing
+  alias Auction.Listings.Bid
+  alias Auction.Users
 
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  on_mount({AuctionWeb.UserAuth, :mount_current_user})
+
+  def mount(_params, session, socket) do
+
+    {:ok, assign(socket, :bid, nil)}
+  end
+
+  def handle_params(%{"id" => id}, _, socket) do
+    socket = assign(socket, :listing, Listings.get_listing!(id))
+
+    current_user_id = socket.assigns.current_user.id
+    listing_id = String.to_integer(id)
+    payload = %{user_id: current_user_id, listing_id: listing_id}
+
+
+
+    {:noreply, assign(socket, :payload, payload)}
   end
 
   def render(assigns) do
@@ -66,14 +86,17 @@ defmodule AuctionWeb.ListingDetailsLive do
               <span> Current Bid: </span>
               <span> 0$ </span>
             </div>
-            <.form>
+            <form phx-submit="place_bid">
               <p class="mb-2"> Your Bid: </p>
               <div class="flex">
                 <p class="dollar"> $ </p>
-                <input type="text" name="bid" placeholder="0">
+                <input value={@bid}
+                  name="bid"
+                  type="text"
+                  placeholder="0">
               </div>
               <.button class="btn"> Place Bid </.button>
-            </.form>
+            </form>
           </div>
         </div>
 
@@ -81,11 +104,20 @@ defmodule AuctionWeb.ListingDetailsLive do
     """
   end
 
-  def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:listing, Listings.get_listing!(id))}
+  def handle_event("place_bid", %{"bid" => bid}, socket) do
+    payload =
+      socket.assigns.payload
+      |> Map.put(:bid, bid)
+
+    case Listings.create_bid(payload) do
+      {:ok, _bid} ->
+        socket = put_flash(socket, :info, "Bid placed successfully")
+        changeset = Listings.change_bid(%Bid{})
+        {:noreply, assign(socket, :changeset, changeset)}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
+    end
 
   end
-
 end

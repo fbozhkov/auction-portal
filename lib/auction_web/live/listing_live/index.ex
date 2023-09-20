@@ -6,6 +6,7 @@ defmodule AuctionWeb.ListingLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    IO.inspect(socket, label: ">>>>>>>>>>>>>>>>>>>>>>>>")
     {:ok, stream(socket, :listings, Listings.list_listings())}
   end
 
