@@ -9,7 +9,10 @@ defmodule AuctionWeb.ListingDetailsLive do
   def mount(_params, _session, socket) do
     if connected?(socket) do
       Listings.subscribe()
+      :timer.send_interval(1000, self(), :tick)
     end
+    socket = assign(socket, :time_left, nil)
+
     {:ok, assign(socket, :bid, nil)}
   end
 
@@ -19,6 +22,8 @@ defmodule AuctionWeb.ListingDetailsLive do
     current_user_id = socket.assigns.current_user.id
     listing_id = String.to_integer(id)
     payload = %{user_id: current_user_id, listing_id: listing_id}
+
+
 
     {:noreply, assign(socket, :payload, payload)}
   end
@@ -73,15 +78,18 @@ defmodule AuctionWeb.ListingDetailsLive do
         <div class="border-container">
           <h3>Bid Information</h3>
           <div class="row">
-            <span> Time left: </span>
-            <span> 01:03:12 </span>
+            <span> End time: </span>
+            <span> <%= @listing.end_date %> </span>
           </div>
-
+          <div class="row">
+            <span> Time left: </span>
+            <span> <%= @time_left %> </span>
+          </div>
           <div class="row">
             <span> Current Bid: </span>
             <span> <%= @listing.current_bid %>$ </span>
           </div>
-          <form phx-submit="place_bid">
+          <form phx-submit="place_bid" phx-change="validate">
             <p class="mb-2">Your Bid:</p>
             <div class="flex">
               <p class="dollar">$</p>
@@ -93,6 +101,18 @@ defmodule AuctionWeb.ListingDetailsLive do
       </div>
     </div>
     """
+  end
+
+  def handle_event("validate", params, socket) do
+    case Integer.parse(params["bid"]) do
+      {bid, ""} when bid > socket.assigns.listing.current_bid ->
+        socket = clear_flash(socket)
+        {:noreply, assign(socket, :bid, bid)}
+
+      _ ->
+        socket = put_flash(socket, :error, "Bid must be greater than current bid")
+        {:noreply, assign(socket, :bid, nil)}
+    end
   end
 
   def handle_event("place_bid", %{"bid" => bid}, socket) do
@@ -114,4 +134,24 @@ defmodule AuctionWeb.ListingDetailsLive do
   def handle_info({:new_listing_bid, listing}, socket) do
     {:noreply, assign(socket, :listing, listing)}
   end
+
+  def handle_info(:tick, socket) do
+    #IO.inspect(socket)
+    {:noreply, calculate_time_left(socket)}
+  end
+
+  defp calculate_time_left(socket) do
+    now = DateTime.utc_now()
+    timeleft = DateTime.diff(socket.assigns.listing.end_date, now, :second)
+
+    days = div(timeleft, 86_400)
+    hours = div(rem(timeleft, 86_400), 3_600)
+    minutes = div(rem(timeleft, 3_600), 60)
+    seconds = rem(timeleft, 60)
+
+    formatted_time_left = "#{days}D #{hours}H #{minutes} min #{seconds} sec"
+
+    assign(socket, :time_left, formatted_time_left)
+  end
+
 end

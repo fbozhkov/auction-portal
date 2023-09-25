@@ -1,7 +1,15 @@
 defmodule AuctionWeb.ListingsLive do
   use AuctionWeb, :live_view
 
+  alias AuctionWeb.ListingCardComponent
+
   def mount(_params, _session, socket) do
+    # if connected?(socket) do
+    #   :timer.send_interval(1000, self(), :tick)
+    # end
+
+    # socket = assign(socket, :time_left, nil)
+
     {:ok, assign(socket, :listings, Auction.Listings.list_listings())}
   end
 
@@ -11,26 +19,17 @@ defmodule AuctionWeb.ListingsLive do
       <h3>All Listings</h3>
       <div class="listings">
         <%= for listing <- @listings do %>
-          <div class="card">
-            <.link patch={~p"/listings/#{listing.id}"}>
-              <div class="thumbnail">
-                <img src={~p"/images/car-logo.png"} % />
-              </div>
-            </.link>
-            <div class="details">
-              <h3><%= listing.make %> <%= listing.model %></h3>
-              <p><%= listing.engine %> <%= listing.fuel %></p>
-              <p><%= listing.year %> / <%= listing.odometer %> km</p>
-              <p><%= listing.transmission %></p>
-              <div class="bid">
-                <p><%= listing.end_date %></p>
-                <p class="price">Current bid: $<%= listing.current_bid%></p>
-              </div>
-            </div>
-          </div>
+          <.live_component
+          module={ListingCardComponent}
+          id={listing.id}
+          listing={listing}
+          />
         <% end %>
       </div>
     </div>
     """
   end
+
+
+
 end
