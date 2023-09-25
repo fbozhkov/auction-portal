@@ -43,6 +43,11 @@ defmodule AuctionWeb.ListingLive.FormComponent do
           type="number"
           label="Minimum price"
         />
+        <.input
+          field={@form[:current_bid]}
+          type="number"
+          label="Starting price"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Listing</.button>
         </:actions>

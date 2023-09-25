@@ -24,7 +24,8 @@ import DateTime
   fuel: "petrol",
   color: "Black",
   end_date: DateTime.new!(~D[2023-10-05], ~T[10:00:00], "Etc/UTC"),
-  minimum_price: 4000
+  minimum_price: 4000,
+  current_bid: 120
 }
 |> Repo.insert()
 
@@ -38,7 +39,8 @@ import DateTime
   fuel: "petrol",
   color: "White",
   end_date: DateTime.new!(~D[2023-10-05], ~T[00:00:00], "Etc/UTC"),
-  minimum_price: 4000
+  minimum_price: 4000,
+  current_bid: 100
 }
 |> Repo.insert()
 
@@ -52,7 +54,8 @@ import DateTime
   fuel: "petrol",
   color: "Black",
   end_date: DateTime.new!(~D[2023-10-05], ~T[00:00:00], "Etc/UTC"),
-  minimum_price: 5000
+  minimum_price: 5000,
+  current_bid: 500
 }
 |> Repo.insert()
 
@@ -66,7 +69,8 @@ import DateTime
   fuel: "petrol",
   color: "Black",
   end_date: DateTime.new!(~D[2023-10-05], ~T[00:00:00], "Etc/UTC"),
-  minimum_price: 10_000
+  minimum_price: 10_000,
+  current_bid: 100
 }
 |> Repo.insert()
 
@@ -80,6 +84,7 @@ import DateTime
   fuel: "diesel",
   color: "Black",
   end_date: DateTime.new!(~D[2023-10-05], ~T[00:00:00], "Etc/UTC"),
-  minimum_price: 35_000
+  minimum_price: 35_000,
+  current_bid: 1000
 }
 |> Repo.insert()

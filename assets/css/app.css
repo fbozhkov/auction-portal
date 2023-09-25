@@ -58,6 +58,10 @@ img {
     @apply text-gray-900 border-t-2 text-sm pt-2 mb-2;
 }
 
+#listings .card .details .price {
+    @apply text-green-700 font-bold text-lg mb-2;
+}
+
 /* Listing Details */
 
 #listing-details {

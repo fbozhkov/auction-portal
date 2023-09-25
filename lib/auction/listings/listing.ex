@@ -13,6 +13,7 @@ defmodule Auction.Listings.Listing do
     field(:odometer, :integer)
     field(:transmission, :string)
     field(:year, :integer)
+    field(:current_bid, :integer)
     has_many(:bids, Auction.Listings.Bid)
 
     timestamps()
@@ -31,7 +32,8 @@ defmodule Auction.Listings.Listing do
       :fuel,
       :color,
       :end_date,
-      :minimum_price
+      :minimum_price,
+      :current_bid
     ])
     |> validate_required([
       :make,
@@ -43,7 +45,8 @@ defmodule Auction.Listings.Listing do
       :fuel,
       :color,
       :end_date,
-      :minimum_price
+      :minimum_price,
+      :current_bid
     ])
   end
 end

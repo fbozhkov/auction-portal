@@ -9,6 +9,15 @@ defmodule Auction.Listings do
   alias Auction.Listings.Listing
   alias Auction.Listings.Bid
 
+  def subscribe do
+    Phoenix.PubSub.subscribe(Auction.PubSub, "livebids")
+  end
+
+  def broadcast(message) do
+    Phoenix.PubSub.broadcast(Auction.PubSub, "livebids", message)
+  end
+
+
   @doc """
   Returns the list of listings.
 
@@ -77,6 +86,18 @@ defmodule Auction.Listings do
     listing
     |> Listing.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_listing_bid(%Listing{} = listing, attrs) do
+    create_bid(attrs)
+
+    {:ok, listing} =
+      listing
+      |> update_listing(%{current_bid: attrs.bid})
+
+    broadcast({:new_listing_bid, listing})
+
+    {:ok, listing}
   end
 
   @doc """

@@ -1,16 +1,15 @@
 defmodule AuctionWeb.ListingDetailsLive do
   use AuctionWeb, :live_view
-  import AuctionWeb.UserAuth
-  import Ecto.Changeset
 
   alias Auction.Listings
-  alias Auction.Listings.Listing
   alias Auction.Listings.Bid
-  alias Auction.Users
 
   on_mount({AuctionWeb.UserAuth, :mount_current_user})
 
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Listings.subscribe()
+    end
     {:ok, assign(socket, :bid, nil)}
   end
 
@@ -80,7 +79,7 @@ defmodule AuctionWeb.ListingDetailsLive do
 
           <div class="row">
             <span> Current Bid: </span>
-            <span> 0$ </span>
+            <span> <%= @listing.current_bid %>$ </span>
           </div>
           <form phx-submit="place_bid">
             <p class="mb-2">Your Bid:</p>
@@ -99,16 +98,20 @@ defmodule AuctionWeb.ListingDetailsLive do
   def handle_event("place_bid", %{"bid" => bid}, socket) do
     payload =
       socket.assigns.payload
-      |> Map.put(:bid, bid)
+      |> Map.put(:bid, String.to_integer(bid))
 
-    case Listings.create_bid(payload) do
-      {:ok, _bid} ->
-        socket = put_flash(socket, :info, "Bid placed successfully")
-        changeset = Listings.change_bid(%Bid{})
-        {:noreply, assign(socket, :changeset, changeset)}
+    case Listings.update_listing_bid(socket.assigns.listing, payload) do
+      {:ok, listing} ->
+        socket = put_flash(socket, :info, "Current bid updated #{bid}")
+        {:noreply, socket}
 
-      {:error, changeset} ->
-        {:noreply, assign(socket, :form, to_form(changeset))}
+      {:error, _changeset} ->
+        socket = put_flash(socket, :error, "Error updating bid #{bid}")
+        {:noreply, socket}
     end
+  end
+
+  def handle_info({:new_listing_bid, listing}, socket) do
+    {:noreply, assign(socket, :listing, listing)}
   end
 end

@@ -24,7 +24,7 @@ defmodule AuctionWeb.ListingsLive do
               <p><%= listing.transmission %></p>
               <div class="bid">
                 <p><%= listing.end_date %></p>
-                <p><%= listing.minimum_price %></p>
+                <p class="price">Current bid: $<%= listing.current_bid%></p>
               </div>
             </div>
           </div>
