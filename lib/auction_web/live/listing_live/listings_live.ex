@@ -13,9 +13,8 @@ defmodule AuctionWeb.ListingsLive do
 
     socket =
       assign(socket,
-        listings, [],
-        keyword: "",
-        loading: false)
+        loading: false
+      )
 
     {:ok, socket}
   end
@@ -27,6 +26,7 @@ defmodule AuctionWeb.ListingsLive do
     page = param_to_integer(params["page"], 1)
 
     options = %{
+      keyword: "",
       sort_by: sort_by,
       sort_order: sort_order,
       per_page: per_page,
@@ -51,13 +51,12 @@ defmodule AuctionWeb.ListingsLive do
   def render(assigns) do
     ~H"""
     <div id="listings">
-      <h3>All Listings</h3>
       <div class="search">
         <form phx-submit="search">
           <input
             type="text"
             name="keyword"
-            value={@keyword}
+            value={@options.keyword}
             placeholder="Keyword"
             autofocus
             autocomplete="off"
@@ -149,10 +148,10 @@ defmodule AuctionWeb.ListingsLive do
 
   def handle_event("search", %{"keyword" => keyword}, socket) do
     send(self(), {:run_search, keyword})
-
+    params = %{socket.assigns.options | keyword: keyword}
+    socket = push_patch(socket, to: ~p"/listings?#{params}")
     socket =
       assign(socket,
-        keyword: keyword,
         listings: [],
         loading: true
       )
@@ -161,14 +160,6 @@ defmodule AuctionWeb.ListingsLive do
   end
 
   def handle_info({:run_search, keyword}, socket) do
-    # IO.inspect(socket, label: ">>>>>>>>>>>>>>>>>>>>>>>socketBefore<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>")
-    # socket =
-    #   assign(socket,
-    #     listings: Listings.search_by_keyword(keyword),
-    #     loading: false,
-    #     listings_count: length(Listings.search_by_keyword(keyword))
-    #     )
-    # IO.inspect(socket, label: ">>>>>>>>>>>>>>>>>>>>>>>AFTER<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>")
     socket =
       assign(socket,
         listings: Listings.search_by_keyword(keyword),

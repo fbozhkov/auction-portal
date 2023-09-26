@@ -34,8 +34,12 @@ img {
     @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
 }
 
+#listings .search {
+    @apply flex justify-between items-center mb-4;
+}
+
 #listings .search form {
-    @apply inline-flex items-center px-2;
+    @apply inline-flex items-center mb-4;
 }
 
 #listings .search form input[type="text"] {
