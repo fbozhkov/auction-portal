@@ -34,6 +34,18 @@ img {
     @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
 }
 
+#listings form {
+    @apply flex items-center justify-end mb-4;
+}
+
+#listings form select {
+    @apply appearance-none bg-slate-200 border border-slate-400 text-slate-700 py-0 pr-7 mr-2 h-8 rounded-lg font-semibold cursor-pointer text-sm mx-1;
+}
+
+#listings form select:focus {
+    @apply outline-none bg-slate-200 border-slate-500;
+}
+
 #listings .footer {
     @apply text-center bg-white max-w-5xl mx-auto text-lg py-8;
 }

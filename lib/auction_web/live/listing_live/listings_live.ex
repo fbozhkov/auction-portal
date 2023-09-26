@@ -41,6 +41,15 @@ defmodule AuctionWeb.ListingsLive do
     ~H"""
     <div id="listings">
       <h3>All Listings</h3>
+      <form phx-change="select-per-page">
+        <select name="per-page">
+          <%= Phoenix.HTML.Form.options_for_select(
+            [8, 12, 16, 20],
+            @options.per_page
+          ) %>
+        </select>
+        <label for="per-page">per page</label>
+      </form>
       <div class="listings">
         <%= for listing <- @listings do %>
           <.live_component
@@ -83,6 +92,14 @@ defmodule AuctionWeb.ListingsLive do
 
     </div>
     """
+  end
+
+  def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
+    params = %{socket.assigns.options | per_page: per_page}
+
+    socket = push_patch(socket, to: ~p"/listings?#{params}")
+
+    {:noreply, socket}
   end
 
   defp param_to_integer(nil, default), do: default
