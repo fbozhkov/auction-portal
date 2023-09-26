@@ -11,7 +11,13 @@ defmodule AuctionWeb.ListingsLive do
 
     # socket = assign(socket, :time_left, nil)
 
-    {:ok, assign(socket, :listings, [])}
+    socket =
+      assign(socket,
+        listings, [],
+        keyword: "",
+        loading: false)
+
+    {:ok, socket}
   end
 
   def handle_params(params, _uri, socket) do
@@ -28,6 +34,7 @@ defmodule AuctionWeb.ListingsLive do
     }
 
     listings = Listings.list_listings(options)
+    socket = assign(socket, listings: listings, options: options)
 
     socket =
       assign(socket,
@@ -45,6 +52,29 @@ defmodule AuctionWeb.ListingsLive do
     ~H"""
     <div id="listings">
       <h3>All Listings</h3>
+      <div class="search">
+        <form phx-submit="search">
+          <input
+            type="text"
+            name="keyword"
+            value={@keyword}
+            placeholder="Keyword"
+            autofocus
+            autocomplete="off"
+            list="matches"
+            phx-debounce="500"
+          />
+
+          <button>
+            <img src="/images/search.svg" />
+          </button>
+        </form>
+
+        <.loader visable={@loading} />
+      </div>
+      <%!-- <pre>
+        <%= inspect(assigns, pretty: true) %>
+      </pre> --%>
       <div class="sort-filter">
         <form phx-change="select-per-page">
           <select name="per-page">
@@ -115,6 +145,39 @@ defmodule AuctionWeb.ListingsLive do
 
     </div>
     """
+  end
+
+  def handle_event("search", %{"keyword" => keyword}, socket) do
+    send(self(), {:run_search, keyword})
+
+    socket =
+      assign(socket,
+        keyword: keyword,
+        listings: [],
+        loading: true
+      )
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:run_search, keyword}, socket) do
+    # IO.inspect(socket, label: ">>>>>>>>>>>>>>>>>>>>>>>socketBefore<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>")
+    # socket =
+    #   assign(socket,
+    #     listings: Listings.search_by_keyword(keyword),
+    #     loading: false,
+    #     listings_count: length(Listings.search_by_keyword(keyword))
+    #     )
+    # IO.inspect(socket, label: ">>>>>>>>>>>>>>>>>>>>>>>AFTER<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>")
+    socket =
+      assign(socket,
+        listings: Listings.search_by_keyword(keyword),
+        loading: false,
+        listings_count: length(Listings.search_by_keyword(keyword)),
+        more_pages?: more_pages?(socket.assigns.options, length(Listings.search_by_keyword(keyword))),
+        pages: pages(socket.assigns.options, length(Listings.search_by_keyword(keyword)))
+      )
+    {:noreply, socket}
   end
 
   def sort_link(assigns) do
@@ -191,8 +254,8 @@ defmodule AuctionWeb.ListingsLive do
     end
   end
 
-  def more_pages?(options, pizza_order_count) do
-    options.page * options.per_page < pizza_order_count
+  def more_pages?(options, listing_count) do
+    options.page * options.per_page < listing_count
   end
 
   defp pages(options, donation_count) do
@@ -206,6 +269,5 @@ defmodule AuctionWeb.ListingsLive do
       end
     end
   end
-
 
 end

@@ -34,27 +34,48 @@ img {
     @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
 }
 
+#listings .search form {
+    @apply inline-flex items-center px-2;
+}
+
+#listings .search form input[type="text"] {
+    @apply h-10 border border-slate-400 rounded-l-md bg-white px-5 text-base;
+}
+
+#listings .search form input[type="text"]:focus {
+    @apply outline-none;
+}
+
+#listings .search button {
+    @apply h-10 px-3 py-2 bg-transparent border border-slate-400 border-l-0 rounded-r-md transition ease-in-out duration-150 outline-none hover:bg-slate-300;
+}
+
+#listings .search button img,
+#listings .search button svg {
+    @apply h-5 w-5;
+}
+
 #listings .sort-filter {
     @apply flex justify-between items-center mb-4;
 }
 
-#listings .sort-options {
+#listings .sort-filter .sort-options {
     @apply flex;
 }
 
-#listings form {
+#listings .sort-filter form {
     @apply flex items-center justify-end mb-4;
 }
 
-#listings form label {
+#listings .sort-filter form label {
     @apply text-slate-700 font-semibold mr-2;
 }
 
-#listings form select {
+#listings .sort-filter form select {
     @apply appearance-none bg-slate-200 border border-slate-400 text-slate-700 py-0 pr-7 mr-2 h-8 rounded-lg font-semibold cursor-pointer text-sm mx-1;
 }
 
-#listings form select:focus {
+#listings .sort-filter form select:focus {
     @apply outline-none bg-slate-200 border-slate-500;
 }
 
@@ -180,4 +201,78 @@ img {
 
 #listing-details .bidding {
 
+}
+
+/*
+ * Loading Spinner
+ *
+ * Copied from:
+ * https://projects.lukehaas.me/css-loaders/
+ */
+.loader,
+.loader:before,
+.loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+}
+
+.loader {
+    color: #5a67d8;
+    font-size: 10px;
+    margin: 20px auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    top: 0;
+}
+
+.loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 3.5em;
+}
+
+@-webkit-keyframes load7 {
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
+@keyframes load7 {
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
 }

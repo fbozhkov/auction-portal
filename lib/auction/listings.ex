@@ -17,6 +17,22 @@ defmodule Auction.Listings do
     Phoenix.PubSub.broadcast(Auction.PubSub, "livebids", message)
   end
 
+  @doc """
+  Search listings by keyword.
+  """
+
+  def search_by_keyword(keyword) do
+    query =
+      from(l in Listing,
+        where: ilike(l.make, ^"%#{keyword}%") or
+              ilike(l.model, ^"%#{keyword}%") or
+              ilike(l.color, ^"%#{keyword}%"),
+        select: l
+      )
+    Repo.all(query)
+  end
+
+
 
   @doc """
   Returns the list of listings.
