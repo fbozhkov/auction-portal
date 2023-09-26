@@ -11,7 +11,7 @@ defmodule AuctionWeb.ListingCardComponent do
 
   def render(assigns) do
     ~H"""
-      <div class="card" id={"listing-\#{@id}"}>
+      <div class="card" id={"listing-#{@id}"}>
       <%!-- <pre>
         <%= inspect(assigns, pretty: true) %>
     </pre> --%>

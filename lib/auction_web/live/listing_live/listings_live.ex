@@ -11,14 +11,18 @@ defmodule AuctionWeb.ListingsLive do
 
     # socket = assign(socket, :time_left, nil)
 
-    {:ok, socket, temporary_assigns: [listings: []]}
+    {:ok, assign(socket, :listings, [])}
   end
 
   def handle_params(params, _uri, socket) do
+    sort_by = valid_sort_by(params)
+    sort_order = valid_sort_order(params)
     per_page = param_to_integer(params["per_page"], 8)
     page = param_to_integer(params["page"], 1)
 
     options = %{
+      sort_by: sort_by,
+      sort_order: sort_order,
       per_page: per_page,
       page: page
     }
@@ -41,15 +45,34 @@ defmodule AuctionWeb.ListingsLive do
     ~H"""
     <div id="listings">
       <h3>All Listings</h3>
-      <form phx-change="select-per-page">
-        <select name="per-page">
-          <%= Phoenix.HTML.Form.options_for_select(
-            [8, 12, 16, 20],
-            @options.per_page
-          ) %>
-        </select>
-        <label for="per-page">per page</label>
-      </form>
+      <div class="sort-filter">
+        <form phx-change="select-per-page">
+          <select name="per-page">
+            <%= Phoenix.HTML.Form.options_for_select(
+              [8, 12, 16, 20],
+              @options.per_page
+            ) %>
+          </select>
+          <label for="per-page">per page</label>
+        </form>
+        <div class="sort-options">
+          <form phx-change="sort-by">
+            <label for="sort-by">Sort by</label>
+            <select name="sort-by">
+              <%= Phoenix.HTML.Form.options_for_select(
+                ["id", "make", "year"],
+                @options.sort_by
+              ) %>
+            </select>
+          </form>
+          <div class="sort-order">
+            <.sort_link
+              options={@options}>
+              <%= @options.sort_order %>
+            </.sort_link>
+          </div>
+        </div>
+      </div>
       <div class="listings">
         <%= for listing <- @listings do %>
           <.live_component
@@ -94,6 +117,30 @@ defmodule AuctionWeb.ListingsLive do
     """
   end
 
+  def sort_link(assigns) do
+    caret_or_v =
+      if assigns.options.sort_order == :asc do
+        "👆"
+      else
+        "👇"
+      end
+    params = %{
+      assigns.options
+      | sort_order: next_sort_order(assigns.options.sort_order)
+    }
+
+    assigns = assign(assigns, params: params)
+
+
+
+    ~H"""
+    <.link patch={~p"/listings?#{@params}"}>
+      <%= caret_or_v %>
+      <%= render_slot(@inner_block) %>
+    </.link>
+    """
+  end
+
   def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
     params = %{socket.assigns.options | per_page: per_page}
 
@@ -101,6 +148,36 @@ defmodule AuctionWeb.ListingsLive do
 
     {:noreply, socket}
   end
+
+  def handle_event("sort-by", %{"sort-by" => sort_by}, socket) do
+    sort_by = String.downcase(sort_by)
+    params = %{socket.assigns.options | sort_by: sort_by}
+
+    socket = push_patch(socket, to: ~p"/listings?#{params}")
+
+    {:noreply, socket}
+  end
+
+  defp next_sort_order(sort_order) do
+    case sort_order do
+      :asc -> :desc
+      :desc -> :asc
+    end
+  end
+
+  defp valid_sort_by(%{"sort_by" => sort_by})
+       when sort_by in ~w(id make year) do
+    String.to_atom(sort_by)
+  end
+
+  defp valid_sort_by(_params), do: :id
+
+  defp valid_sort_order(%{"sort_order" => sort_order})
+       when sort_order in ~w(asc desc) do
+    String.to_atom(sort_order)
+  end
+
+  defp valid_sort_order(_params), do: :asc
 
   defp param_to_integer(nil, default), do: default
 

@@ -36,8 +36,13 @@ defmodule Auction.Listings do
   """
   def list_listings(options) when is_map(options) do
     from(Listing)
+    |> sort(options)
     |> paginate(options)
     |> Repo.all()
+  end
+
+  defp sort(query, %{sort_by: sort_by, sort_order: sort_order}) do
+    order_by(query, {^sort_order, ^sort_by})
   end
 
   defp paginate(query, %{page: page, per_page: per_page}) do
