@@ -28,7 +28,30 @@ defmodule Auction.Listings do
 
   """
   def list_listings do
-    Repo.all(Listing)
+    Repo.all(from l in Listing, order_by: [desc: l.end_date])
+  end
+
+  @doc """
+  Returns a list of listings based on the given `options`.
+  """
+  def list_listings(options) when is_map(options) do
+    from(Listing)
+    |> paginate(options)
+    |> Repo.all()
+  end
+
+  defp paginate(query, %{page: page, per_page: per_page}) do
+    offset = max(page - 1, 0) * per_page
+
+    query
+    |> limit(^per_page)
+    |> offset(^offset)
+  end
+
+  defp paginate(query, _options), do: query
+
+  def listing_count do
+    Repo.aggregate(Listing, :count, :id)
   end
 
   @doc """

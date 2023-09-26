@@ -34,6 +34,42 @@ img {
     @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
 }
 
+#listings .footer {
+    @apply text-center bg-white max-w-5xl mx-auto text-lg py-8;
+}
+
+#listings .footer .pagination {
+    @apply inline-flex shadow-sm;
+}
+
+#listings .footer a {
+    @apply -ml-px inline-flex items-center px-3 py-2 border border-slate-300 bg-white text-base font-medium text-slate-600 no-underline;
+}
+
+#listings .footer a:hover {
+    @apply bg-slate-300;
+}
+
+#listings .footer a.active {
+    @apply bg-slate-800 text-white;
+}
+
+#listings .footer a:first-child {
+    @apply rounded-l-md;
+}
+
+#listings .footer a:last-child {
+    @apply rounded-r-md;
+}
+
+#listings .footer a.previous {
+    @apply rounded-l-md;
+}
+
+#listings .footer a.next {
+    @apply rounded-r-md;
+}
+
 #listings .card{
     @apply max-w-md rounded bg-white overflow-hidden shadow-lg;
 }
