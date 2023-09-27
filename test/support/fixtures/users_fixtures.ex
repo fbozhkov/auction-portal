@@ -28,4 +28,18 @@ defmodule Auction.UsersFixtures do
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
   end
+
+  @doc """
+  Generate a user_shortlist.
+  """
+  def user_shortlist_fixture(attrs \\ %{}) do
+    {:ok, user_shortlist} =
+      attrs
+      |> Enum.into(%{
+        shortlist_type: "some shortlist_type"
+      })
+      |> Auction.Users.create_user_shortlist()
+
+    user_shortlist
+  end
 end

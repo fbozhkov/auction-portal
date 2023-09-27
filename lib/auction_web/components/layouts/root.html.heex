@@ -34,6 +34,13 @@
             Sell your car
           </.button>
         </.link>
+        <%= if @current_user do %>
+          <.link patch={~p"/my_listings"}>
+            <.button>
+              My listings
+            </.button>
+          </.link>
+        <% end %>
       </div>
       <ul class="auth-buttons">
         <%= if @current_user do %>

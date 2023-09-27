@@ -8,6 +8,7 @@ defmodule Auction.Listings do
 
   alias Auction.Listings.Listing
   alias Auction.Listings.Bid
+  alias Auction.Users
 
   def subscribe do
     Phoenix.PubSub.subscribe(Auction.PubSub, "livebids")
@@ -46,6 +47,17 @@ defmodule Auction.Listings do
   def list_listings do
     Repo.all(from l in Listing, order_by: [desc: l.end_date])
   end
+
+  def list_listings_by_user(user_id) do
+    Repo.all(from l in Listing, where: l.user_id == ^user_id, order_by: [desc: l.end_date])
+  end
+
+  def list_favourite_listings_by_user(user_id) do
+
+    listing_ids = Users.list_user_favourites_ids(user_id)
+    Repo.all(from l in Listing, where: l.id in ^listing_ids, order_by: [desc: l.end_date])
+  end
+
 
   @doc """
   Returns a list of listings based on the given `options`.

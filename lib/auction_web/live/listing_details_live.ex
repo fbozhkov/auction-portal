@@ -2,8 +2,8 @@ defmodule AuctionWeb.ListingDetailsLive do
   use AuctionWeb, :live_view
 
   alias Auction.Listings
-  alias Auction.Listings.Bid
   alias Auction.Users.User
+  alias Auction.Users
 
   on_mount({AuctionWeb.UserAuth, :mount_current_user})
 
@@ -28,7 +28,8 @@ defmodule AuctionWeb.ListingDetailsLive do
       %User{} = current_user ->
         socket = assign(
           socket,
-          listing: Listings.get_listing!(id)
+          listing: Listings.get_listing!(id),
+          favourite: check_if_favourite(current_user.id, id)
           )
         listing_id = String.to_integer(id)
         payload = %{user_id: current_user.id, listing_id: listing_id}
@@ -42,7 +43,7 @@ defmodule AuctionWeb.ListingDetailsLive do
       <div class="heading">
         <h2><%= @listing.make %> <%= @listing.model %></h2>
         <button phx-click="toggle_favorite">
-          <%!-- <%= if @favorite, do: "Add to Favorites", else: "Remove from Favorites" %> --%>
+          <%= if @favourite, do: "Remove from Favourites", else: "Add to Favourites" %>
         </button>
       </div>
       <div class="wrapper">
@@ -120,6 +121,22 @@ defmodule AuctionWeb.ListingDetailsLive do
     """
   end
 
+  def handle_event("toggle_favorite", _, socket) do
+    current_user = socket.assigns.current_user
+    listing_id = socket.assigns.listing.id
+    case socket.assigns.favourite do
+      true ->
+        Users.delete_favourite(current_user.id , listing_id)
+        socket = assign(socket, :favourite, false)
+        {:noreply, socket}
+
+      false ->
+        Users.create_favourite(%{user_id: current_user.id, listing_id: listing_id})
+        socket = assign(socket, :favourite, true)
+        {:noreply, socket}
+    end
+  end
+
   def handle_event("validate", params, socket) do
     case Integer.parse(params["bid"]) do
       {bid, ""} when bid > socket.assigns.listing.current_bid ->
@@ -138,7 +155,7 @@ defmodule AuctionWeb.ListingDetailsLive do
       |> Map.put(:bid, String.to_integer(bid))
 
     case Listings.update_listing_bid(socket.assigns.listing, payload) do
-      {:ok, listing} ->
+      {:ok, _listing} ->
         socket = put_flash(socket, :info, "Current bid updated #{bid}")
         {:noreply, socket}
 
@@ -169,6 +186,16 @@ defmodule AuctionWeb.ListingDetailsLive do
     formatted_time_left = "#{days}D #{hours}H #{minutes} min #{seconds} sec"
 
     assign(socket, :time_left, formatted_time_left)
+  end
+
+  def check_if_favourite(user_id, listing_id) do
+    result = Users.check_if_listing_is_favourite(user_id, listing_id)
+
+    if Enum.empty?(result) do
+      false
+    else
+      true
+    end
   end
 
 end

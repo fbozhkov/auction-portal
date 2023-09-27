@@ -15,6 +15,7 @@ defmodule Auction.Listings.Listing do
     field(:year, :integer)
     field(:current_bid, :integer)
     has_many(:bids, Auction.Listings.Bid)
+    many_to_many :users, Auction.Users.User, join_through: Auction.Users.UserShortlist
 
     timestamps()
   end

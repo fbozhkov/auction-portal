@@ -23,6 +23,7 @@ defmodule AuctionWeb.Router do
     live_session :authenticated,
       on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}] do
       live("/listings/new", ListingLive.Index, :new)
+      live("/my_listings", MyListingsLive)
     end
   end
 
