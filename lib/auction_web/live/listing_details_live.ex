@@ -3,6 +3,7 @@ defmodule AuctionWeb.ListingDetailsLive do
 
   alias Auction.Listings
   alias Auction.Listings.Bid
+  alias Auction.Users.User
 
   on_mount({AuctionWeb.UserAuth, :mount_current_user})
 
@@ -16,22 +17,34 @@ defmodule AuctionWeb.ListingDetailsLive do
     {:ok, assign(socket, :bid, nil)}
   end
 
+
+
   def handle_params(%{"id" => id}, _, socket) do
-    socket = assign(socket, :listing, Listings.get_listing!(id))
+    case socket.assigns.current_user do
+      nil ->
+        socket = assign(socket, :listing, Listings.get_listing!(id))
+        {:noreply, socket}
 
-    current_user_id = socket.assigns.current_user.id
-    listing_id = String.to_integer(id)
-    payload = %{user_id: current_user_id, listing_id: listing_id}
-
-
-
-    {:noreply, assign(socket, :payload, payload)}
+      %User{} = current_user ->
+        socket = assign(
+          socket,
+          listing: Listings.get_listing!(id)
+          )
+        listing_id = String.to_integer(id)
+        payload = %{user_id: current_user.id, listing_id: listing_id}
+        {:noreply, assign(socket, :payload, payload)}
+    end
   end
 
   def render(assigns) do
     ~H"""
     <div id="listing-details">
-      <h2><%= @listing.make %> <%= @listing.model %></h2>
+      <div class="heading">
+        <h2><%= @listing.make %> <%= @listing.model %></h2>
+        <button phx-click="toggle_favorite">
+          <%!-- <%= if @favorite, do: "Add to Favorites", else: "Remove from Favorites" %> --%>
+        </button>
+      </div>
       <div class="wrapper">
         <div class="images">
           <img src={~p"/images/car-logo.png"} % />
@@ -89,14 +102,18 @@ defmodule AuctionWeb.ListingDetailsLive do
             <span> Current Bid: </span>
             <span> <%= @listing.current_bid %>$ </span>
           </div>
-          <form phx-submit="place_bid" phx-change="validate">
-            <p class="mb-2">Your Bid:</p>
-            <div class="flex">
-              <p class="dollar">$</p>
-              <input value={@bid} name="bid" type="text" placeholder="0" />
-            </div>
-            <.button class="btn">Place Bid</.button>
-          </form>
+          <%= if @current_user do %>
+            <form phx-submit="place_bid" phx-change="validate">
+              <p class="mb-2">Your Bid:</p>
+              <div class="flex">
+                <p class="dollar">$</p>
+                <input value={@bid} name="bid" type="text" placeholder="0" />
+              </div>
+              <.button class="btn">Place Bid</.button>
+            </form>
+          <% else %>
+            <p>You need to <a href="/users/log_in">log in</a> in order to bid.</p>
+          <% end %>
         </div>
       </div>
     </div>

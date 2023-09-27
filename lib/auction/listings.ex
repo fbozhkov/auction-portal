@@ -112,6 +112,21 @@ defmodule Auction.Listings do
     %Listing{}
     |> Listing.changeset(attrs)
     |> Repo.insert()
+    |> create_auction_process()
+  end
+
+  defp create_auction_process({:ok, listing}) do
+    # Calculate the time difference until the end_date
+    time_difference = DateTime.diff(listing.end_date, DateTime.utc_now(), :millisecond)
+
+    # Schedule the task to end the auction when end_date is reached
+    Process.send_after(Auction.AuctionManager, {:end_auction, listing.id}, time_difference)
+
+    {:ok, listing}
+  end
+
+  defp create_auction_process(_error) do
+    # Handle errors here, e.g., return an error tuple or raise an exception
   end
 
   @doc """

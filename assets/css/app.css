@@ -153,9 +153,13 @@ img {
     @apply mt-8 mx-auto;
 }
 
-#listing-details h2 {
-    @apply text-slate-900 font-extrabold text-3xl pb-2
-            border-b-2 border-gray-200 mb-4;
+#listing-details .heading {
+    @apply flex justify-between items-center border-b-2
+            border-gray-200 pb-2 mb-4;
+}
+
+#listing-details .heading h2 {
+    @apply text-slate-900 font-extrabold text-3xl;
 }
 
 #listing-details .wrapper {
