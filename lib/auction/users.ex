@@ -367,11 +367,17 @@ defmodule Auction.Users do
   end
 
   def list_user_favourites(user_id) do
-    Repo.all(from u in UserShortlist, where: u.user_id == ^user_id and u.shortlist_type == "favourite")
+    Repo.all(
+      from u in UserShortlist, where: u.user_id == ^user_id and u.shortlist_type == "favourite"
+    )
   end
 
   def list_user_favourites_ids(user_id) do
-    Repo.all(from u in UserShortlist, where: u.user_id == ^user_id and u.shortlist_type == "favourite", select: u.listing_id)
+    Repo.all(
+      from u in UserShortlist,
+        where: u.user_id == ^user_id and u.shortlist_type == "favourite",
+        select: u.listing_id
+    )
   end
 
   @doc """
@@ -391,8 +397,14 @@ defmodule Auction.Users do
   def get_user_shortlist!(id), do: Repo.get!(UserShortlist, id)
 
   def check_if_listing_is_favourite(user_id, listing_id) do
-    Repo.all(from u in UserShortlist, where: u.user_id == ^user_id and u.listing_id == ^listing_id and u.shortlist_type == "favourite")
+    Repo.all(
+      from u in UserShortlist,
+        where:
+          u.user_id == ^user_id and u.listing_id == ^listing_id and
+            u.shortlist_type == "favourite"
+    )
   end
+
   @doc """
   Creates a user_shortlist.
 
@@ -452,7 +464,12 @@ defmodule Auction.Users do
   end
 
   def delete_favourite(user_id, listing_id) do
-    Repo.delete_all(from u in UserShortlist, where: u.user_id == ^user_id and u.listing_id == ^listing_id and u.shortlist_type == "favourite")
+    Repo.delete_all(
+      from u in UserShortlist,
+        where:
+          u.user_id == ^user_id and u.listing_id == ^listing_id and
+            u.shortlist_type == "favourite"
+    )
   end
 
   @doc """

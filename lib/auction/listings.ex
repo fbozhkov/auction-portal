@@ -25,15 +25,15 @@ defmodule Auction.Listings do
   def search_by_keyword(keyword) do
     query =
       from(l in Listing,
-        where: ilike(l.make, ^"%#{keyword}%") or
-              ilike(l.model, ^"%#{keyword}%") or
-              ilike(l.color, ^"%#{keyword}%"),
+        where:
+          ilike(l.make, ^"%#{keyword}%") or
+            ilike(l.model, ^"%#{keyword}%") or
+            ilike(l.color, ^"%#{keyword}%"),
         select: l
       )
+
     Repo.all(query)
   end
-
-
 
   @doc """
   Returns the list of listings.
@@ -49,15 +49,13 @@ defmodule Auction.Listings do
   end
 
   def list_listings_by_user(user_id) do
-    Repo.all(from l in Listing, where: l.user_id == ^user_id, order_by: [desc: l.end_date])
+    Repo.all(from l in Listing, where: l.seller_id == ^user_id, order_by: [desc: l.end_date])
   end
 
   def list_favourite_listings_by_user(user_id) do
-
     listing_ids = Users.list_user_favourites_ids(user_id)
     Repo.all(from l in Listing, where: l.id in ^listing_ids, order_by: [desc: l.end_date])
   end
-
 
   @doc """
   Returns a list of listings based on the given `options`.
@@ -121,10 +119,14 @@ defmodule Auction.Listings do
 
   """
   def create_listing(attrs \\ %{}) do
-    %Listing{}
-    |> Listing.changeset(attrs)
-    |> Repo.insert()
-    |> create_auction_process()
+    {:ok, listing} =
+      %Listing{}
+      |> Listing.changeset(attrs)
+      |> Repo.insert()
+
+    create_auction_process(listing)
+
+    {:ok, listing}
   end
 
   defp create_auction_process({:ok, listing}) do

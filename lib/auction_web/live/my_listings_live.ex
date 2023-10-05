@@ -15,37 +15,33 @@ defmodule AuctionWeb.MyListingsLive do
         my_listings: Listings.list_listings_by_user(socket.assigns.current_user.id),
         favourites: Listings.list_favourite_listings_by_user(socket.assigns.current_user.id)
       )
+
     {:ok, socket}
   end
 
   def render(assigns) do
     ~H"""
     <div id="my-listings">
-      <div class="heading">
-        <h2>My Listings</h2>
-      </div>
       <div class="wrapper">
+        <h3>Favourites</h3>
         <div class="listings">
-          <div class="Favourites">
-            <h3>Favourites</h3>
-              <%= for favourite <- @favourites do %>
-                <.live_component
-                module={ListingCardComponent}
-                id={favourite.id}
-                listing={favourite}
-                />
-              <% end %>
-          </div>
-          <div class="MyListings">
-            <h3>My Listings</h3>
-              <%= for listing <- @my_listings do %>
-                <.live_component
-                module={ListingCardComponent}
-                id={listing.id}
-                listing={listing}
-                />
-              <% end %>
-          </div>
+          <%= for favourite <- @favourites do %>
+            <.live_component
+              module={ListingCardComponent}
+              id={favourite.id}
+              listing={favourite}
+            />
+          <% end %>
+        </div>
+        <h3>My Listings</h3>
+        <div class="listings">
+          <%= for listing <- @my_listings do %>
+            <.live_component
+              module={ListingCardComponent}
+              id={listing.id}
+              listing={listing}
+            />
+          <% end %>
         </div>
       </div>
     </div>

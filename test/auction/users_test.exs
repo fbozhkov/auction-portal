@@ -537,13 +537,18 @@ defmodule Auction.UsersTest do
       user_shortlist = user_shortlist_fixture()
       update_attrs = %{shortlist_type: "some updated shortlist_type"}
 
-      assert {:ok, %UserShortlist{} = user_shortlist} = Users.update_user_shortlist(user_shortlist, update_attrs)
+      assert {:ok, %UserShortlist{} = user_shortlist} =
+               Users.update_user_shortlist(user_shortlist, update_attrs)
+
       assert user_shortlist.shortlist_type == "some updated shortlist_type"
     end
 
     test "update_user_shortlist/2 with invalid data returns error changeset" do
       user_shortlist = user_shortlist_fixture()
-      assert {:error, %Ecto.Changeset{}} = Users.update_user_shortlist(user_shortlist, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Users.update_user_shortlist(user_shortlist, @invalid_attrs)
+
       assert user_shortlist == Users.get_user_shortlist!(user_shortlist.id)
     end
 

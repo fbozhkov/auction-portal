@@ -95,8 +95,7 @@ defmodule AuctionWeb.ListingsLive do
             </select>
           </form>
           <div class="sort-order">
-            <.sort_link
-              options={@options}>
+            <.sort_link options={@options}>
               <%= @options.sort_order %>
             </.sort_link>
           </div>
@@ -105,43 +104,42 @@ defmodule AuctionWeb.ListingsLive do
       <div class="listings">
         <%= for listing <- @listings do %>
           <.live_component
-          module={ListingCardComponent}
-          id={listing.id}
-          listing={listing}
+            module={ListingCardComponent}
+            id={listing.id}
+            listing={listing}
           />
         <% end %>
       </div>
 
-    <div class="footer">
-      <div class="pagination">
-        <.link
-          :if={@options.page > 1}
-          navigate={
-            ~p"/listings?#{%{@options | page: @options.page - 1}}"
-          }
-        >
-          Previous
-        </.link>
+      <div class="footer">
+        <div class="pagination">
+          <.link
+            :if={@options.page > 1}
+            navigate={
+              ~p"/listings?#{%{@options | page: @options.page - 1}}"
+            }
+          >
+            Previous
+          </.link>
 
-        <.link
-          :for={{page_number, current_page?} <- @pages}
-          navigate={~p"/listings?#{%{@options | page: page_number}}"}
-          class={if current_page?, do: "active"}
-        >
-          <%= page_number %>
-        </.link>
+          <.link
+            :for={{page_number, current_page?} <- @pages}
+            navigate={~p"/listings?#{%{@options | page: page_number}}"}
+            class={if current_page?, do: "active"}
+          >
+            <%= page_number %>
+          </.link>
 
-        <.link
-          :if={@more_pages?}
-          navigate={
-            ~p"/listings?#{%{@options | page: @options.page + 1}}"
-          }
-        >
-          Next
-        </.link>
+          <.link
+            :if={@more_pages?}
+            navigate={
+              ~p"/listings?#{%{@options | page: @options.page + 1}}"
+            }
+          >
+            Next
+          </.link>
+        </div>
       </div>
-    </div>
-
     </div>
     """
   end
@@ -150,6 +148,7 @@ defmodule AuctionWeb.ListingsLive do
     send(self(), {:run_search, keyword})
     params = %{socket.assigns.options | keyword: keyword}
     socket = push_patch(socket, to: ~p"/listings?#{params}")
+
     socket =
       assign(socket,
         listings: [],
@@ -165,9 +164,11 @@ defmodule AuctionWeb.ListingsLive do
         listings: Listings.search_by_keyword(keyword),
         loading: false,
         listings_count: length(Listings.search_by_keyword(keyword)),
-        more_pages?: more_pages?(socket.assigns.options, length(Listings.search_by_keyword(keyword))),
+        more_pages?:
+          more_pages?(socket.assigns.options, length(Listings.search_by_keyword(keyword))),
         pages: pages(socket.assigns.options, length(Listings.search_by_keyword(keyword)))
       )
+
     {:noreply, socket}
   end
 
@@ -178,14 +179,13 @@ defmodule AuctionWeb.ListingsLive do
       else
         "👇"
       end
+
     params = %{
       assigns.options
       | sort_order: next_sort_order(assigns.options.sort_order)
     }
 
     assigns = assign(assigns, params: params)
-
-
 
     ~H"""
     <.link patch={~p"/listings?#{@params}"}>
@@ -260,5 +260,4 @@ defmodule AuctionWeb.ListingsLive do
       end
     end
   end
-
 end

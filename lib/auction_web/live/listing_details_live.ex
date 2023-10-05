@@ -12,12 +12,11 @@ defmodule AuctionWeb.ListingDetailsLive do
       Listings.subscribe()
       :timer.send_interval(1000, self(), :tick)
     end
+
     socket = assign(socket, :time_left, nil)
 
     {:ok, assign(socket, :bid, nil)}
   end
-
-
 
   def handle_params(%{"id" => id}, _, socket) do
     case socket.assigns.current_user do
@@ -26,11 +25,13 @@ defmodule AuctionWeb.ListingDetailsLive do
         {:noreply, socket}
 
       %User{} = current_user ->
-        socket = assign(
-          socket,
-          listing: Listings.get_listing!(id),
-          favourite: check_if_favourite(current_user.id, id)
+        socket =
+          assign(
+            socket,
+            listing: Listings.get_listing!(id),
+            favourite: check_if_favourite(current_user.id, id)
           )
+
         listing_id = String.to_integer(id)
         payload = %{user_id: current_user.id, listing_id: listing_id}
         {:noreply, assign(socket, :payload, payload)}
@@ -42,9 +43,13 @@ defmodule AuctionWeb.ListingDetailsLive do
     <div id="listing-details">
       <div class="heading">
         <h2><%= @listing.make %> <%= @listing.model %></h2>
-        <button phx-click="toggle_favorite">
-          <%= if @favourite, do: "Remove from Favourites", else: "Add to Favourites" %>
-        </button>
+        <%= if @current_user do %>
+          <button phx-click="toggle_favorite">
+            <%= if @favourite,
+              do: "Remove from Favourites",
+              else: "Add to Favourites" %>
+          </button>
+        <% end %>
       </div>
       <div class="wrapper">
         <div class="images">
@@ -93,15 +98,15 @@ defmodule AuctionWeb.ListingDetailsLive do
           <h3>Bid Information</h3>
           <div class="row">
             <span> End time: </span>
-            <span> <%= @listing.end_date %> </span>
+            <span><%= @listing.end_date %></span>
           </div>
           <div class="row">
             <span> Time left: </span>
-            <span> <%= @time_left %> </span>
+            <span><%= @time_left %></span>
           </div>
           <div class="row">
             <span> Current Bid: </span>
-            <span> <%= @listing.current_bid %>$ </span>
+            <span><%= @listing.current_bid %>$</span>
           </div>
           <%= if @current_user do %>
             <form phx-submit="place_bid" phx-change="validate">
@@ -113,7 +118,10 @@ defmodule AuctionWeb.ListingDetailsLive do
               <.button class="btn">Place Bid</.button>
             </form>
           <% else %>
-            <p>You need to <a href="/users/log_in">log in</a> in order to bid.</p>
+            <p>
+              You need to <a href="/users/log_in">log in</a>
+              in order to bid.
+            </p>
           <% end %>
         </div>
       </div>
@@ -124,9 +132,10 @@ defmodule AuctionWeb.ListingDetailsLive do
   def handle_event("toggle_favorite", _, socket) do
     current_user = socket.assigns.current_user
     listing_id = socket.assigns.listing.id
+
     case socket.assigns.favourite do
       true ->
-        Users.delete_favourite(current_user.id , listing_id)
+        Users.delete_favourite(current_user.id, listing_id)
         socket = assign(socket, :favourite, false)
         {:noreply, socket}
 
@@ -170,7 +179,7 @@ defmodule AuctionWeb.ListingDetailsLive do
   end
 
   def handle_info(:tick, socket) do
-    #IO.inspect(socket)
+    # IO.inspect(socket)
     {:noreply, calculate_time_left(socket)}
   end
 
@@ -197,5 +206,4 @@ defmodule AuctionWeb.ListingDetailsLive do
       true
     end
   end
-
 end

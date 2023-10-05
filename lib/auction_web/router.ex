@@ -17,13 +17,15 @@ defmodule AuctionWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  # Protected routes
+
   scope "/", AuctionWeb do
     pipe_through([:browser, :require_authenticated_user])
 
     live_session :authenticated,
       on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}] do
-      live("/listings/new", ListingLive.Index, :new)
       live("/my_listings", MyListingsLive)
+      live("/listings/new", NewListingLive)
     end
   end
 
@@ -105,5 +107,11 @@ defmodule AuctionWeb.Router do
       live("/users/confirm/:token", UserConfirmationLive, :edit)
       live("/users/confirm", UserConfirmationInstructionsLive, :new)
     end
+  end
+
+  scope "/", AuctionWeb do
+    pipe_through([:browser])
+
+    live("/*path", NoPage)
   end
 end

@@ -16,7 +16,7 @@ defmodule Auction.AuctionManager do
 
   def handle_info({:end_auction, listing_id}, state) do
     # Retrieve the listing by its ID from the database
-    #listing = Repo.get(Listing, listing_id)
+    # listing = Repo.get(Listing, listing_id)
     listing = Listings.get_listing!(listing_id)
 
     # Check if the listing is still active (i.e., end_date hasn't passed)

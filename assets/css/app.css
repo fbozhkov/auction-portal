@@ -24,6 +24,51 @@ img {
     @apply flex gap-4 content-center items-center p-8;
 }
 
+
+.hero {
+    background-image: url('hero-image.jpg');
+    background-size: cover;
+    text-align: center;
+    padding: 5rem 0;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #ff6600;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e65100;
+}
+
+/* No page found */
+
+#no-page {
+    @apply mt-8 max-w-6xl mx-auto flex flex-col gap-4;
+}
+
+#no-page h1 {
+    @apply text-left text-slate-900 font-extrabold text-3xl;
+}
+
+
 /* Listings */
 
 #listings {
@@ -145,6 +190,48 @@ img {
 
 #listings .card .details .price {
     @apply text-green-700 font-bold text-lg mb-2;
+}
+
+/* Listing Card */
+.card {
+    @apply max-w-md rounded bg-white overflow-hidden shadow-lg;
+}
+
+.card img {
+    @apply w-full;
+}
+
+.card .details {
+    @apply px-4 py-4;
+}
+
+.card .details h3 {
+    @apply text-gray-900 font-bold text-lg mb-2;
+}
+
+.card .details p {
+    @apply text-gray-900 text-sm mb-2;
+}
+
+.card .details .bid {
+    @apply text-gray-900 border-t-2 text-sm pt-2 mb-2;
+}
+
+.card .details .price {
+    @apply text-green-700 font-bold text-lg mb-2;
+}
+
+/* My Listings */
+#my-listings {
+    @apply mt-8 max-w-6xl mx-auto;
+}
+
+#my-listings h3 {
+    @apply text-left text-slate-900 font-extrabold text-3xl;
+}
+
+#my-listings .listings {
+    @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
 }
 
 /* Listing Details */
