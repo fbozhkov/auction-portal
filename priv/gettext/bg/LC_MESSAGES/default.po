@@ -1,0 +1,58 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/auction_web/components/core_components.ex:526
+#, elixir-autogen, elixir-format
+msgid "Actions"
+msgstr ""
+
+#: lib/auction_web/components/core_components.ex:80
+#: lib/auction_web/components/core_components.ex:152
+#, elixir-autogen, elixir-format
+msgid "close"
+msgstr ""
+
+#: lib/auction_web/controllers/page_html/home.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Car Auction Portal"
+msgstr "Портал за автомобилни търгове"
+
+#: lib/auction_web/controllers/page_html/home.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "Find the perfect car at the best prices."
+msgstr "Намерете перфектния автомобил на най-добрите цени."
+
+#: lib/auction_web/controllers/page_html/home.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Welcome to Car Auctions"
+msgstr "Добре дошли в автомобилните търгове"
+
+#: lib/auction_web/controllers/page_html/home.html.heex:8
+#, elixir-autogen, elixir-format, fuzzy
+msgid "View Auctions"
+msgstr "Виж търгове"
+
+#: lib/auction_web/components/layouts/root.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "All listings"
+msgstr "Всички обяви"
+
+#: lib/auction_web/components/layouts/root.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "My listings"
+msgstr "Моите обяви"
+
+#: lib/auction_web/components/layouts/root.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Sell your car"
+msgstr "Пусни обява"

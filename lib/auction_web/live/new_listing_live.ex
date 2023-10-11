@@ -18,9 +18,6 @@ defmodule AuctionWeb.NewListingLive do
     ~H"""
     <div id="new-listing">
       <h1>New Listing</h1>
-      <pre>
-        <%= inspect(@form, pretty: true) %>
-      </pre>
       <div>
         <.form
           for={@form}
@@ -28,33 +25,55 @@ defmodule AuctionWeb.NewListingLive do
           phx-submit="save"
           phx-change="validate"
         >
-          <.input field={@form[:make]} type="text" label="Make" />
-          <.input field={@form[:model]} type="text" label="Model" />
-          <.input field={@form[:year]} type="number" label="Year" />
-          <.input field={@form[:odometer]} type="number" label="Odometer" />
-          <.input field={@form[:engine]} type="text" label="Engine" />
-          <.input
-            field={@form[:transmission]}
-            type="text"
-            label="Transmission"
-          />
-          <.input field={@form[:fuel]} type="text" label="Fuel" />
-          <.input field={@form[:color]} type="text" label="Color" />
-          <.input
-            field={@form[:end_date]}
-            type="datetime-local"
-            label="End date"
-          />
-          <.input
-            field={@form[:minimum_price]}
-            type="number"
-            label="Minimum price"
-          />
-          <.input
-            field={@form[:current_bid]}
-            type="number"
-            label="Starting price"
-          />
+          <div class="field">
+            <.input field={@form[:make]} type="text" label="Make" />
+          </div>
+          <div class="field">
+            <.input field={@form[:model]} type="text" label="Model" />
+          </div>
+          <div class="field">
+            <.input field={@form[:year]} type="number" label="Year" />
+          </div>
+          <div class="field">
+            <.input field={@form[:odometer]} type="number" label="Odometer" />
+          </div>
+          <div class="field">
+            <.input field={@form[:engine]} type="text" label="Engine" />
+          </div>
+          <div class="field">
+            <.input
+              field={@form[:transmission]}
+              type="text"
+              label="Transmission"
+            />
+          </div>
+          <div class="field">
+            <.input field={@form[:fuel]} type="text" label="Fuel" />
+          </div>
+          <div class="field">
+            <.input field={@form[:color]} type="text" label="Color" />
+          </div>
+          <div class="field">
+            <.input
+              field={@form[:end_date]}
+              type="datetime-local"
+              label="End date"
+            />
+          </div>
+          <div class="field">
+            <.input
+              field={@form[:minimum_price]}
+              type="number"
+              label="Minimum price"
+            />
+          </div>
+          <div class="field">
+            <.input
+              field={@form[:current_bid]}
+              type="number"
+              label="Starting price"
+            />
+          </div>
           <.button>Save</.button>
         </.form>
       </div>

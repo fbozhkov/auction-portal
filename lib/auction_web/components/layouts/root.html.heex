@@ -15,34 +15,55 @@
       src={~p"/assets/app.js"}
     >
     </script>
+    <script>
+      function toggleDropdown() {
+        let dropdown = document.getElementById("dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+      }
+    </script>
   </head>
   <body class="bg-white antialiased">
     <div class="nav">
       <div id="logo">
-        <.link navigate={~p"/"}>
+        <.link patch={~p"/"}>
           <img src={~p"/images/car-logo.png"} alt="Home" />
         </.link>
       </div>
       <div class="flex gap-4 content-center items-center p-8">
         <.link patch={~p"/listings"}>
           <.button>
-            All listings
+            <%= gettext "All listings" %>
           </.button>
         </.link>
         <.link patch={~p"/listings/new"}>
           <.button>
-            Sell your car
+            <%= gettext "Sell your car" %>
           </.button>
         </.link>
         <%= if @current_user do %>
           <.link patch={~p"/my_listings"}>
             <.button>
-              My listings
+              <%= gettext "My listings" %>
             </.button>
           </.link>
         <% end %>
       </div>
       <ul class="auth-buttons">
+        <li>
+          <.link
+            href={~p"/en"}
+            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          >
+            <%= @locale %>
+          </.link>
+        </li>
+        <li>
+          <.lang_switcher locale={@locale} url={@conn.request_path}/>
+        </li>
         <%= if @current_user do %>
           <li class="text-[0.8125rem] leading-6 text-zinc-900">
             <%= @current_user.email %>
@@ -52,7 +73,7 @@
               href={~p"/users/settings"}
               class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
-              Settings
+              <%= gettext "Settings" %>
             </.link>
           </li>
           <li>
@@ -61,7 +82,7 @@
               method="delete"
               class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
-              Log out
+              <%= gettext "Log out" %>
             </.link>
           </li>
         <% else %>

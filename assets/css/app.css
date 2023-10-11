@@ -24,6 +24,21 @@ img {
     @apply flex gap-4 content-center items-center p-8;
 }
 
+.dropdown-btn {
+    @apply px-4 py-2 hover:bg-gray-200 rounded cursor-pointer;
+}
+
+.dropdown-icon {
+    @apply h-6 w-6;
+}
+
+.dropdown-content {
+    @apply hidden absolute rounded bg-gray-200 w-full shadow-md z-10
+}
+
+.dropdown-item {
+    @apply px-4 py-2 hover:bg-orange-500 rounded hover:text-white 
+}
 
 .hero {
     background-image: url('hero-image.jpg');
@@ -297,6 +312,17 @@ img {
 #listing-details .bidding {
 
 }
+
+/* New Lisitng */
+
+#new-listing {
+    @apply max-w-6xl mt-8 mx-auto;
+}
+
+#new-listing .field {
+    @apply mb-4;
+}
+
 
 /*
  * Loading Spinner
