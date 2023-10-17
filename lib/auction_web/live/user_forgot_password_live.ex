@@ -7,9 +7,9 @@ defmodule AuctionWeb.UserForgotPasswordLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Forgot your password?
+        <%= gettext("Forgot your password?") %>
         <:subtitle>
-          We'll send a password reset link to your inbox
+          <%= gettext("We'll send a password reset link to your inbox") %>
         </:subtitle>
       </.header>
 
@@ -21,18 +21,18 @@ defmodule AuctionWeb.UserForgotPasswordLive do
         <.input
           field={@form[:email]}
           type="email"
-          placeholder="Email"
+          placeholder={gettext("Email")}
           required
         />
         <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
+          <.button phx-disable-with={gettext("Sending...")} class="w-full">
+            <%= gettext("Send password reset instructions") %>
           </.button>
         </:actions>
       </.simple_form>
       <p class="text-center text-sm mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/users/register"}><%= gettext("Register") %></.link>
+        | <.link href={~p"/users/log_in"}><%= gettext("Log in") %></.link>
       </p>
     </div>
     """
@@ -51,7 +51,9 @@ defmodule AuctionWeb.UserForgotPasswordLive do
     end
 
     info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      {gettext(
+         "If your email is in our system, you will receive instructions to reset your password shortly."
+       )}
 
     {:noreply,
      socket

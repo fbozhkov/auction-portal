@@ -4,8 +4,8 @@ defmodule Auction.Repo.Migrations.CreateUserShortlist do
   def change do
     create table(:user_shortlist) do
       add :shortlist_type, :string
-      add :user_id, references(:users, on_delete: :nothing)
-      add :listing_id, references(:listings, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :listing_id, references(:listings, on_delete: :delete_all)
 
       timestamps()
     end

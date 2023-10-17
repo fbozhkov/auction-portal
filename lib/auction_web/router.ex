@@ -24,7 +24,7 @@ defmodule AuctionWeb.Router do
     pipe_through([:browser, :require_authenticated_user])
 
     live_session :authenticated,
-      on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}] do
+      on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}, AuctionWeb.RestoreLocale] do
       live("/my_listings", MyListingsLive)
       live("/listings/new", NewListingLive)
     end
@@ -41,42 +41,46 @@ defmodule AuctionWeb.Router do
 
     get("/", PageController, :home)
 
-    live("/listings", ListingsLive)
-    live("/listings/:id", ListingDetailsLive)
+    live_session :default, on_mount: AuctionWeb.RestoreLocale do
+      live("/listings", ListingsLive)
+      live("/listings/:id", ListingDetailsLive)
+    end
   end
 
-  # scope "/admin", AuctionWeb do
-  #   pipe_through(:browser)
+  ## Admin routes
 
-  #   live("/listings", ListingLive.Index, :index)
-  #   live("/listings/new", ListingLive.Index, :new)
-  #   live("/listings/:id/edit", ListingLive.Index, :edit)
+  scope "/:locale/admin", AuctionWeb do
+    pipe_through(:browser)
 
-  #   live("/listings/:id", ListingLive.Show, :show)
-  #   live("/listings/:id/show/edit", ListingLive.Show, :edit)
+    live("/listings", ListingLive.Index, :index)
+    live("/listings/new", ListingLive.Index, :new)
+    live("/listings/:id/edit", ListingLive.Index, :edit)
+
+    live("/listings/:id", ListingLive.Show, :show)
+    live("/listings/:id/show/edit", ListingLive.Show, :edit)
+  end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", AuctionWeb do
+  #   pipe_through :api
   # end
 
-  # # Other scopes may use custom stacks.
-  # # scope "/api", AuctionWeb do
-  # #   pipe_through :api
-  # # end
+  # Enable LiveDashboard and Swoosh mailbox preview in development
+  if Application.compile_env(:auction, :dev_routes) do
+    # If you want to use the LiveDashboard in production, you should put
+    # it behind authentication and allow only admins to access it.
+    # If your application does not have an admins-only section yet,
+    # you can use Plug.BasicAuth to set up some basic authentication
+    # as long as you are also using SSL (which you should anyway).
+    import Phoenix.LiveDashboard.Router
 
-  # # Enable LiveDashboard and Swoosh mailbox preview in development
-  # if Application.compile_env(:auction, :dev_routes) do
-  #   # If you want to use the LiveDashboard in production, you should put
-  #   # it behind authentication and allow only admins to access it.
-  #   # If your application does not have an admins-only section yet,
-  #   # you can use Plug.BasicAuth to set up some basic authentication
-  #   # as long as you are also using SSL (which you should anyway).
-  #   import Phoenix.LiveDashboard.Router
+    scope "/dev" do
+      pipe_through(:browser)
 
-  #   scope "/dev" do
-  #     pipe_through(:browser)
-
-  #     live_dashboard("/dashboard", metrics: AuctionWeb.Telemetry)
-  #     forward("/mailbox", Plug.Swoosh.MailboxPreview)
-  #   end
-  # end
+      live_dashboard("/dashboard", metrics: AuctionWeb.Telemetry)
+      forward("/mailbox", Plug.Swoosh.MailboxPreview)
+    end
+  end
 
   ## Authentication routes
 

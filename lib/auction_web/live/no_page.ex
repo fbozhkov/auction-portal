@@ -8,13 +8,13 @@ defmodule AuctionWeb.NoPage do
   def render(assigns) do
     ~H"""
     <div id="no-page">
-      <h1>Page not found</h1>
+      <h1><%= gettext("Page not found") %></h1>
       <p>
-        The page you're looking for doesn't exist.
-        You may have mistyped the address or the page may have moved.
+        <%= gettext("The page you're looking for doesn't exist.
+        You may have mistyped the address or the page may have moved.") %>
       </p>
       <.link navigate={~p"/"}>
-        <.button>Go to home page</.button>
+        <.button><%= gettext("Go to home page") %></.button>
       </.link>
     </div>
     """

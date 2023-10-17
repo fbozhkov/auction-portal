@@ -12,10 +12,7 @@ defmodule AuctionWeb.ListingCardComponent do
   def render(assigns) do
     ~H"""
     <div class="card" id={"listing-#{@id}"}>
-      <%!-- <pre>
-        <%= inspect(assigns, pretty: true) %>
-    </pre> --%>
-      <.link patch={~p"/listings/#{@listing.id}"}>
+      <.link patch={~p"/#{@locale}/listings/#{@listing.id}"}>
         <div class="thumbnail">
           <img src={~p"/images/car-logo.png"} % />
         </div>
@@ -27,7 +24,9 @@ defmodule AuctionWeb.ListingCardComponent do
         <p><%= @listing.transmission %></p>
         <div class="bid">
           <p><%= @listing.end_date %></p>
-          <p class="price">Current bid: $<%= @listing.current_bid %></p>
+          <p class="price">
+            <%= gettext("Current bid: $") %><%= @listing.current_bid %>
+          </p>
         </div>
       </div>
     </div>

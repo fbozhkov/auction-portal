@@ -1,19 +1,15 @@
 defmodule AuctionWeb.ListingsLive do
   use AuctionWeb, :live_view
 
+  alias AuctionWeb.SortOptionsComponent
   alias AuctionWeb.ListingCardComponent
   alias Auction.Listings
 
-  def mount(_params, _session, socket) do
-    # if connected?(socket) do
-    #   :timer.send_interval(1000, self(), :tick)
-    # end
-
-    # socket = assign(socket, :time_left, nil)
-
+  def mount(%{"locale" => locale}, _session, socket) do
     socket =
       assign(socket,
-        loading: false
+        loading: false,
+        locale: locale
       )
 
     {:ok, socket}
@@ -57,7 +53,7 @@ defmodule AuctionWeb.ListingsLive do
             type="text"
             name="keyword"
             value={@options.keyword}
-            placeholder="Keyword"
+            placeholder={gettext("Keyword")}
             autofocus
             autocomplete="off"
             list="matches"
@@ -71,9 +67,6 @@ defmodule AuctionWeb.ListingsLive do
 
         <.loader visable={@loading} />
       </div>
-      <%!-- <pre>
-        <%= inspect(assigns, pretty: true) %>
-      </pre> --%>
       <div class="sort-filter">
         <form phx-change="select-per-page">
           <select name="per-page">
@@ -82,24 +75,14 @@ defmodule AuctionWeb.ListingsLive do
               @options.per_page
             ) %>
           </select>
-          <label for="per-page">per page</label>
+          <label for="per-page"><%= gettext("per page") %></label>
         </form>
-        <div class="sort-options">
-          <form phx-change="sort-by">
-            <label for="sort-by">Sort by</label>
-            <select name="sort-by">
-              <%= Phoenix.HTML.Form.options_for_select(
-                ["id", "make", "year"],
-                @options.sort_by
-              ) %>
-            </select>
-          </form>
-          <div class="sort-order">
-            <.sort_link options={@options}>
-              <%= @options.sort_order %>
-            </.sort_link>
-          </div>
-        </div>
+        <.live_component
+          module={SortOptionsComponent}
+          id="sort-options"
+          options={@options}
+          locale={@locale}
+        />
       </div>
       <div class="listings">
         <%= for listing <- @listings do %>
@@ -107,6 +90,7 @@ defmodule AuctionWeb.ListingsLive do
             module={ListingCardComponent}
             id={listing.id}
             listing={listing}
+            locale={@locale}
           />
         <% end %>
       </div>
@@ -116,15 +100,17 @@ defmodule AuctionWeb.ListingsLive do
           <.link
             :if={@options.page > 1}
             navigate={
-              ~p"/listings?#{%{@options | page: @options.page - 1}}"
+              ~p"/#{@locale}/listings?#{%{@options | page: @options.page - 1}}"
             }
           >
-            Previous
+            <%= gettext("Previous") %>
           </.link>
 
           <.link
             :for={{page_number, current_page?} <- @pages}
-            navigate={~p"/listings?#{%{@options | page: page_number}}"}
+            navigate={
+              ~p"/#{@locale}/listings?#{%{@options | page: page_number}}"
+            }
             class={if current_page?, do: "active"}
           >
             <%= page_number %>
@@ -133,10 +119,10 @@ defmodule AuctionWeb.ListingsLive do
           <.link
             :if={@more_pages?}
             navigate={
-              ~p"/listings?#{%{@options | page: @options.page + 1}}"
+              ~p"/#{@locale}/listings?#{%{@options | page: @options.page + 1}}"
             }
           >
-            Next
+            <%= gettext("Next") %>
           </.link>
         </div>
       </div>
@@ -147,13 +133,36 @@ defmodule AuctionWeb.ListingsLive do
   def handle_event("search", %{"keyword" => keyword}, socket) do
     send(self(), {:run_search, keyword})
     params = %{socket.assigns.options | keyword: keyword}
-    socket = push_patch(socket, to: ~p"/listings?#{params}")
+    locale = socket.assigns.locale
+    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
 
     socket =
       assign(socket,
         listings: [],
         loading: true
       )
+
+    {:noreply, socket}
+  end
+
+  def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
+    params = %{socket.assigns.options | per_page: per_page}
+    locale = socket.assigns.locale
+    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:sort_option_changed, params}, socket) do
+    locale = socket.assigns.locale
+    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
+
+    {:noreply, socket}
+  end
+
+  def handle_info({:sort_order_changed, params}, socket) do
+    locale = socket.assigns.locale
+    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
 
     {:noreply, socket}
   end
@@ -170,53 +179,6 @@ defmodule AuctionWeb.ListingsLive do
       )
 
     {:noreply, socket}
-  end
-
-  def sort_link(assigns) do
-    caret_or_v =
-      if assigns.options.sort_order == :asc do
-        "👆"
-      else
-        "👇"
-      end
-
-    params = %{
-      assigns.options
-      | sort_order: next_sort_order(assigns.options.sort_order)
-    }
-
-    assigns = assign(assigns, params: params)
-
-    ~H"""
-    <.link patch={~p"/listings?#{@params}"}>
-      <%= caret_or_v %>
-      <%= render_slot(@inner_block) %>
-    </.link>
-    """
-  end
-
-  def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
-    params = %{socket.assigns.options | per_page: per_page}
-
-    socket = push_patch(socket, to: ~p"/listings?#{params}")
-
-    {:noreply, socket}
-  end
-
-  def handle_event("sort-by", %{"sort-by" => sort_by}, socket) do
-    sort_by = String.downcase(sort_by)
-    params = %{socket.assigns.options | sort_by: sort_by}
-
-    socket = push_patch(socket, to: ~p"/listings?#{params}")
-
-    {:noreply, socket}
-  end
-
-  defp next_sort_order(sort_order) do
-    case sort_order do
-      :asc -> :desc
-      :desc -> :asc
-    end
   end
 
   defp valid_sort_by(%{"sort_by" => sort_by})

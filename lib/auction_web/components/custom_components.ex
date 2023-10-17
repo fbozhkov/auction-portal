@@ -49,14 +49,20 @@ defmodule AuctionWeb.CustomComponents do
     ~H"""
     <div class="relative">
       <button class="dropdown-btn" onclick="toggleDropdown()">
-        <.icon name="hero-globe-europe-africa" class="dropdown-icon"></.icon>
+        <.icon name="hero-globe-europe-africa" class="dropdown-icon">
+        </.icon>
       </button>
       <ul class="dropdown-content" id="dropdown">
-          <li class="dropdown-item"><a href={url}><%=String.capitalize(current_lang)%></a></li>
-          <li class="dropdown-item"><a href={new_url}><%=String.capitalize(other_lang)%></a></li>
+        <li class="dropdown-item">
+          <a href={url}><%= String.capitalize(current_lang) %></a>
+        </li>
+        <li class="dropdown-item">
+          <a href={new_url}><%= String.capitalize(other_lang) %></a>
+        </li>
       </ul>
     </div>
     """
+
     # ~H"""
     #   <select name="lang">
 
@@ -75,7 +81,8 @@ defmodule AuctionWeb.CustomComponents do
   end
 
   defp change_url(url, locale) do
-    [_, _ | rest_url] = String.split(url, "/")
-    "/#{locale}/#{rest_url}"
+    parts = String.split(url, "/", trim: true)
+    rest_of_url = Enum.slice(parts, 1..-1) |> Enum.join("/")
+    "/#{locale}/#{rest_of_url}"
   end
 end

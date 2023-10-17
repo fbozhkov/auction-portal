@@ -17,7 +17,7 @@ defmodule AuctionWeb.NewListingLive do
   def render(assigns) do
     ~H"""
     <div id="new-listing">
-      <h1>New Listing</h1>
+      <h1><%= gettext("New Listing") %></h1>
       <div>
         <.form
           for={@form}
@@ -26,55 +26,83 @@ defmodule AuctionWeb.NewListingLive do
           phx-change="validate"
         >
           <div class="field">
-            <.input field={@form[:make]} type="text" label="Make" />
+            <.input
+              field={@form[:make]}
+              type="text"
+              label={gettext("Make")}
+            />
           </div>
           <div class="field">
-            <.input field={@form[:model]} type="text" label="Model" />
+            <.input
+              field={@form[:model]}
+              type="text"
+              label={gettext("Model")}
+            />
           </div>
           <div class="field">
-            <.input field={@form[:year]} type="number" label="Year" />
+            <.input
+              field={@form[:year]}
+              type="number"
+              label={gettext("Year")}
+            />
           </div>
           <div class="field">
-            <.input field={@form[:odometer]} type="number" label="Odometer" />
+            <.input
+              field={@form[:odometer]}
+              type="number"
+              label={gettext("Odometer")}
+            />
           </div>
           <div class="field">
-            <.input field={@form[:engine]} type="text" label="Engine" />
+            <.input
+              field={@form[:engine]}
+              type="text"
+              label={gettext("Engine")}
+            />
           </div>
           <div class="field">
             <.input
               field={@form[:transmission]}
               type="text"
-              label="Transmission"
+              label={gettext("Transmission")}
             />
           </div>
           <div class="field">
-            <.input field={@form[:fuel]} type="text" label="Fuel" />
+            <.input
+              field={@form[:fuel]}
+              type="text"
+              label={gettext("Fuel")}
+            />
           </div>
           <div class="field">
-            <.input field={@form[:color]} type="text" label="Color" />
+            <.input
+              field={@form[:color]}
+              type="text"
+              label={gettext("Color")}
+            />
           </div>
           <div class="field">
             <.input
               field={@form[:end_date]}
               type="datetime-local"
-              label="End date"
+              label={gettext("End date")}
             />
           </div>
           <div class="field">
             <.input
               field={@form[:minimum_price]}
               type="number"
-              label="Minimum price"
+              label={gettext("Minimum price")}
             />
           </div>
           <div class="field">
             <.input
               field={@form[:current_bid]}
               type="number"
-              label="Starting price"
+              label={gettext("Starting price")}
             />
           </div>
-          <.button>Save</.button>
+          <.button><%= gettext("Save") %></.button>
         </.form>
       </div>
     </div>
@@ -103,5 +131,4 @@ defmodule AuctionWeb.NewListingLive do
 
     {:noreply, assign(socket, :form, to_form(changeset))}
   end
-
 end

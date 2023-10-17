@@ -42,17 +42,535 @@ msgstr "Добре дошли в автомобилните търгове"
 msgid "View Auctions"
 msgstr "Виж търгове"
 
-#: lib/auction_web/components/layouts/root.html.heex:29
+#: lib/auction_web/components/layouts/root.html.heex:39
 #, elixir-autogen, elixir-format
 msgid "All listings"
 msgstr "Всички обяви"
 
-#: lib/auction_web/components/layouts/root.html.heex:40
+#: lib/auction_web/components/layouts/root.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "My listings"
 msgstr "Моите обяви"
 
-#: lib/auction_web/components/layouts/root.html.heex:34
+#: lib/auction_web/components/layouts/root.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "Sell your car"
 msgstr "Пусни обява"
+
+#: lib/auction_web/live/user_settings_live.ex:9
+#, elixir-autogen, elixir-format
+msgid "Account Settings"
+msgstr "Настройки"
+
+#: lib/auction_web/live/listing_details_live.ex:100
+#, elixir-autogen, elixir-format
+msgid "Auction end: "
+msgstr "Край на аукциона"
+
+#: lib/auction_web/live/listing_details_live.ex:98
+#, elixir-autogen, elixir-format
+msgid "Bid Information"
+msgstr "Информация за наддаването"
+
+#: lib/auction_web/live/user_settings_live.ex:39
+#, elixir-autogen, elixir-format
+msgid "Change Email"
+msgstr "Смени имейл"
+
+#: lib/auction_web/live/user_settings_live.ex:81
+#, elixir-autogen, elixir-format
+msgid "Change Password"
+msgstr "Смени парола"
+
+#: lib/auction_web/live/user_settings_live.ex:39
+#: lib/auction_web/live/user_settings_live.ex:80
+#, elixir-autogen, elixir-format
+msgid "Changing..."
+msgstr "Промяна..."
+
+#: lib/auction_web/live/listing_details_live.ex:93
+#, elixir-autogen, elixir-format
+msgid "Color: "
+msgstr "Цвят: "
+
+#: lib/auction_web/live/user_reset_password_live.ex:30
+#: lib/auction_web/live/user_settings_live.ex:68
+#, elixir-autogen, elixir-format
+msgid "Confirm new password"
+msgstr "Потвърди нова парола"
+
+#: lib/auction_web/live/listing_details_live.ex:108
+#, elixir-autogen, elixir-format
+msgid "Current Bid: "
+msgstr "Текуща оферта: "
+
+#: lib/auction_web/live/listing_live/listing_card_component.ex:30
+#, elixir-autogen, elixir-format
+msgid "Current bid: $"
+msgstr "Текуща оферта: $"
+
+#: lib/auction_web/live/user_settings_live.ex:34
+#: lib/auction_web/live/user_settings_live.ex:74
+#, elixir-autogen, elixir-format
+msgid "Current password"
+msgstr "Сегашна парола"
+
+#: lib/auction_web/live/user_forgot_password_live.ex:24
+#: lib/auction_web/live/user_login_live.ex:27
+#: lib/auction_web/live/user_registration_live.ex:37
+#: lib/auction_web/live/user_settings_live.ex:26
+#, elixir-autogen, elixir-format
+msgid "Email"
+msgstr "Имейл"
+
+#: lib/auction_web/live/listing_details_live.ex:81
+#, elixir-autogen, elixir-format
+msgid "Engine: "
+msgstr "Двигател: "
+
+#: lib/auction_web/live/listing_details_live.ex:89
+#, elixir-autogen, elixir-format
+msgid "Fuel: "
+msgstr "Гориво: "
+
+#: lib/auction_web/components/layouts/root.html.heex:95
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:36
+#: lib/auction_web/live/user_confirmation_live.ex:26
+#: lib/auction_web/live/user_forgot_password_live.ex:35
+#: lib/auction_web/live/user_reset_password_live.ex:42
+#, elixir-autogen, elixir-format
+msgid "Log in"
+msgstr "Вход"
+
+#: lib/auction_web/components/layouts/root.html.heex:77
+#, elixir-autogen, elixir-format
+msgid "Log out"
+msgstr "Изход"
+
+#: lib/auction_web/live/listing_details_live.ex:61
+#, elixir-autogen, elixir-format
+msgid "Lot Number: "
+msgstr "Номер на търг: "
+
+#: lib/auction_web/live/listing_details_live.ex:65
+#, elixir-autogen, elixir-format
+msgid "Make: "
+msgstr "Марка: "
+
+#: lib/auction_web/live/user_settings_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "Manage your account email address and password settings"
+msgstr "Управление на имейл адреса и паролата на акаунта"
+
+#: lib/auction_web/live/listing_details_live.ex:69
+#, elixir-autogen, elixir-format
+msgid "Model: "
+msgstr "Модел: "
+
+#: lib/auction_web/live/user_reset_password_live.ex:24
+#: lib/auction_web/live/user_settings_live.ex:62
+#, elixir-autogen, elixir-format
+msgid "New password"
+msgstr "Нова парола"
+
+#: lib/auction_web/live/listing_live/listings_live.ex:127
+#, elixir-autogen, elixir-format
+msgid "Next"
+msgstr "Следваща"
+
+#: lib/auction_web/live/listing_details_live.ex:77
+#, elixir-autogen, elixir-format
+msgid "Odometer: "
+msgstr "Пробег"
+
+#: lib/auction_web/live/listing_details_live.ex:118
+#, elixir-autogen, elixir-format
+msgid "Place Bid"
+msgstr "Наддай"
+
+#: lib/auction_web/live/listing_live/listings_live.ex:110
+#, elixir-autogen, elixir-format
+msgid "Previous"
+msgstr "Предишна"
+
+#: lib/auction_web/components/layouts/root.html.heex:86
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:35
+#: lib/auction_web/live/user_confirmation_live.ex:25
+#: lib/auction_web/live/user_forgot_password_live.ex:34
+#: lib/auction_web/live/user_reset_password_live.ex:41
+#, elixir-autogen, elixir-format
+msgid "Register"
+msgstr "Регистрация"
+
+#: lib/auction_web/components/layouts/root.html.heex:68
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Настройки"
+
+#: lib/auction_web/live/listing_live/sort_options_component.ex:13
+#, elixir-autogen, elixir-format
+msgid "Sort by"
+msgstr "Сортирай по"
+
+#: lib/auction_web/live/listing_details_live.ex:104
+#, elixir-autogen, elixir-format
+msgid "Time left: "
+msgstr "Оставащо време: "
+
+#: lib/auction_web/live/listing_details_live.ex:85
+#, elixir-autogen, elixir-format
+msgid "Transmission: "
+msgstr "Трансмисия: "
+
+#: lib/auction_web/live/listing_details_live.ex:59
+#, elixir-autogen, elixir-format
+msgid "Vehicle Information"
+msgstr "Информация за автомобила"
+
+#: lib/auction_web/live/listing_details_live.ex:73
+#, elixir-autogen, elixir-format
+msgid "Year: "
+msgstr "Година: "
+
+#: lib/auction_web/live/listing_details_live.ex:122
+#, elixir-autogen, elixir-format
+msgid "You need to "
+msgstr "Трябва да"
+
+#: lib/auction_web/live/listing_details_live.ex:113
+#, elixir-autogen, elixir-format
+msgid "Your Bid:"
+msgstr "Вашата оферта:"
+
+#: lib/auction_web/live/listing_details_live.ex:123
+#, elixir-autogen, elixir-format
+msgid "in order to bid."
+msgstr "за да наддавате"
+
+#: lib/auction_web/live/listing_details_live.ex:122
+#, elixir-autogen, elixir-format
+msgid "log in"
+msgstr "влезете във вашия профил"
+
+#: lib/auction_web/live/listing_live/listings_live.ex:82
+#, elixir-autogen, elixir-format
+msgid "per page"
+msgstr "на страница"
+
+#: lib/auction_web/controllers/user_session_controller.ex:39
+#, elixir-autogen, elixir-format
+msgid "Logged out successfully."
+msgstr "Успешно излязохте от профила си"
+
+#: lib/auction_web/live/user_registration_live.ex:13
+#, elixir-autogen, elixir-format
+msgid "Already registered?"
+msgstr "Вече сте регистриран?"
+
+#: lib/auction_web/live/user_confirmation_live.ex:9
+#, elixir-autogen, elixir-format
+msgid "Confirm Account"
+msgstr "Потвърдете акаунт"
+
+#: lib/auction_web/live/user_confirmation_live.ex:19
+#, elixir-autogen, elixir-format
+msgid "Confirm my account"
+msgstr "Потвърди акаунта ми"
+
+#: lib/auction_web/live/user_confirmation_live.ex:18
+#, elixir-autogen, elixir-format
+msgid "Confirming..."
+msgstr "Потвърждаване..."
+
+#: lib/auction_web/live/user_registration_live.ex:47
+#, elixir-autogen, elixir-format
+msgid "Create an account"
+msgstr "Създай акаунт"
+
+#: lib/auction_web/live/user_registration_live.ex:46
+#, elixir-autogen, elixir-format
+msgid "Creating account..."
+msgstr "Създаване на акаунт..."
+
+#: lib/auction_web/live/user_login_live.ex:10
+#, elixir-autogen, elixir-format
+msgid "Don't have an account?"
+msgstr "Нямате регистрация?"
+
+#: lib/auction_web/live/user_forgot_password_live.ex:10
+#: lib/auction_web/live/user_login_live.ex:45
+#, elixir-autogen, elixir-format
+msgid "Forgot your password?"
+msgstr "Забравена парола?"
+
+#: lib/auction_web/live/no_page.ex:17
+#, elixir-autogen, elixir-format
+msgid "Go to home page"
+msgstr "Отиди на заглавна страница"
+
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:55
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
+msgstr ""
+
+#: lib/auction_web/live/user_forgot_password_live.ex:54
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system, you will receive instructions to reset your password shortly."
+msgstr ""
+
+#: lib/auction_web/live/user_login_live.ex:39
+#, elixir-autogen, elixir-format
+msgid "Keep me logged in"
+msgstr "Запази ме вписан"
+
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:10
+#, elixir-autogen, elixir-format
+msgid "No confirmation instructions received?"
+msgstr ""
+
+#: lib/auction_web/live/user_registration_live.ex:34
+#: lib/auction_web/live/user_reset_password_live.ex:18
+#, elixir-autogen, elixir-format
+msgid "Oops, something went wrong! Please check the errors below."
+msgstr ""
+
+#: lib/auction_web/live/no_page.ex:11
+#, elixir-autogen, elixir-format
+msgid "Page not found"
+msgstr "Страницата не беше намерена"
+
+#: lib/auction_web/live/user_login_live.ex:31
+#: lib/auction_web/live/user_registration_live.ex:41
+#, elixir-autogen, elixir-format
+msgid "Password"
+msgstr "Парола"
+
+#: lib/auction_web/live/user_reset_password_live.ex:70
+#, elixir-autogen, elixir-format
+msgid "Password reset successfully."
+msgstr "Паролата беше сменена успешно."
+
+#: lib/auction_web/live/user_registration_live.ex:11
+#, elixir-autogen, elixir-format
+msgid "Register for an account"
+msgstr "Регистрация за акаунт"
+
+#: lib/auction_web/live/user_reset_password_live.ex:9
+#: lib/auction_web/live/user_reset_password_live.ex:35
+#, elixir-autogen, elixir-format
+msgid "Reset Password"
+msgstr "Промени парола"
+
+#: lib/auction_web/live/user_reset_password_live.ex:88
+#, elixir-autogen, elixir-format
+msgid "Reset password link is invalid or it has expired."
+msgstr ""
+
+#: lib/auction_web/live/user_reset_password_live.ex:34
+#, elixir-autogen, elixir-format
+msgid "Resetting..."
+msgstr "Промяна..."
+
+#: lib/auction_web/live/user_forgot_password_live.ex:29
+#, elixir-autogen, elixir-format
+msgid "Send password reset instructions"
+msgstr ""
+
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:28
+#: lib/auction_web/live/user_forgot_password_live.ex:28
+#, elixir-autogen, elixir-format
+msgid "Sending..."
+msgstr ""
+
+#: lib/auction_web/live/user_login_live.ex:50
+#: lib/auction_web/live/user_registration_live.ex:18
+#, elixir-autogen, elixir-format
+msgid "Sign in"
+msgstr "Влезте"
+
+#: lib/auction_web/live/user_login_live.ex:8
+#, elixir-autogen, elixir-format
+msgid "Sign in to account"
+msgstr "Влез в акаунта си"
+
+#: lib/auction_web/live/user_login_live.ex:15
+#, elixir-autogen, elixir-format
+msgid "Sign up"
+msgstr "Създай акаунт"
+
+#: lib/auction_web/live/user_login_live.ex:49
+#, elixir-autogen, elixir-format
+msgid "Signing in..."
+msgstr "Вписване..."
+
+#: lib/auction_web/live/no_page.ex:13
+#, elixir-autogen, elixir-format
+msgid "The page you're looking for doesn't exist.\n    You may have mistyped the address or the page may have moved."
+msgstr "Страницата която търсите не съществува или е преместена."
+
+#: lib/auction_web/live/user_confirmation_live.ex:59
+#, elixir-autogen, elixir-format
+msgid "User confirmation link is invalid or it has expired."
+msgstr ""
+
+#: lib/auction_web/live/user_confirmation_live.ex:44
+#, elixir-autogen, elixir-format
+msgid "User confirmed successfully."
+msgstr ""
+
+#: lib/auction_web/live/user_confirmation_instructions_live.ex:12
+#, elixir-autogen, elixir-format
+msgid "We'll send a new confirmation link to your inbox"
+msgstr ""
+
+#: lib/auction_web/live/user_forgot_password_live.ex:12
+#, elixir-autogen, elixir-format
+msgid "We'll send a password reset link to your inbox"
+msgstr ""
+
+#: lib/auction_web/live/user_login_live.ex:17
+#, elixir-autogen, elixir-format
+msgid "for an account now."
+msgstr " "
+
+#: lib/auction_web/live/user_registration_live.ex:20
+#, elixir-autogen, elixir-format
+msgid "to your account now."
+msgstr "във вашият профил."
+
+#: lib/auction_web/controllers/user_session_controller.ex:8
+#, elixir-autogen, elixir-format
+msgid "Account created successfully!"
+msgstr "Акаунтът беше създаден успешно!"
+
+#: lib/auction_web/controllers/user_session_controller.ex:31
+#, elixir-autogen, elixir-format
+msgid "Invalid email or password"
+msgstr "Грешен имейл или парола"
+
+#: lib/auction_web/controllers/user_session_controller.ex:14
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Password updated successfully!"
+msgstr "Паролата беше сменена успешно."
+
+#: lib/auction_web/controllers/user_session_controller.ex:18
+#, elixir-autogen, elixir-format
+msgid "Welcome back!"
+msgstr "Добре дошли отново!"
+
+#: lib/auction_web/components/core_components.ex:175
+#, elixir-autogen, elixir-format
+msgid "Error!"
+msgstr "Грешка!"
+
+#: lib/auction_web/components/core_components.ex:174
+#, elixir-autogen, elixir-format
+msgid "Success!"
+msgstr "Успешна операция!"
+
+#: lib/auction_web/live/new_listing_live.ex:54
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Color"
+msgstr "Цвят"
+
+#: lib/auction_web/live/new_listing_live.ex:60
+#, elixir-autogen, elixir-format
+msgid "End date"
+msgstr "Крайна дата на търга"
+
+#: lib/auction_web/live/new_listing_live.ex:41
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Engine"
+msgstr "Двигател"
+
+#: lib/auction_web/live/new_listing_live.ex:51
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Fuel"
+msgstr "Гориво"
+
+#: lib/auction_web/live/listing_live/sort_options_component.ex:7
+#: lib/auction_web/live/new_listing_live.ex:29
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Make"
+msgstr "Марка"
+
+#: lib/auction_web/live/new_listing_live.ex:67
+#, elixir-autogen, elixir-format
+msgid "Minimum price"
+msgstr "Минимална цена"
+
+#: lib/auction_web/live/new_listing_live.ex:32
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Model"
+msgstr "Модел"
+
+#: lib/auction_web/live/new_listing_live.ex:20
+#, elixir-autogen, elixir-format
+msgid "New Listing"
+msgstr "Създай нов търг"
+
+#: lib/auction_web/live/new_listing_live.ex:38
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Odometer"
+msgstr "Пробег"
+
+#: lib/auction_web/live/new_listing_live.ex:77
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr "Запази"
+
+#: lib/auction_web/live/new_listing_live.ex:74
+#, elixir-autogen, elixir-format
+msgid "Starting price"
+msgstr "Начална цена"
+
+#: lib/auction_web/live/new_listing_live.ex:47
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Transmission"
+msgstr "Трансмисия"
+
+#: lib/auction_web/live/listing_live/sort_options_component.ex:8
+#: lib/auction_web/live/new_listing_live.ex:35
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Year"
+msgstr "Година"
+
+#: lib/auction_web/live/listing_details_live.ex:195
+#, elixir-autogen, elixir-format
+msgid "%{days}D %{hours}H %{minutes} min %{seconds} sec"
+msgstr "%{days}Д %{hours}Ч %{minutes} мин %{seconds} сек"
+
+#: lib/auction_web/live/listing_details_live.ex:156
+#, elixir-autogen, elixir-format
+msgid "Bid must be greater than current bid"
+msgstr "Офертата трябва да е по-голяма от текущата оферта"
+
+#: lib/auction_web/live/listing_details_live.ex:168
+#, elixir-autogen, elixir-format
+msgid "Current bid updated %{bid}"
+msgstr "Офертата е отправена %{bid}"
+
+#: lib/auction_web/live/listing_details_live.ex:172
+#, elixir-autogen, elixir-format
+msgid "Error updating bid %{bid}"
+msgstr "Грешка при наддаване %{bid}"
+
+#: lib/auction_web/live/listing_live/listings_live.ex:57
+#, elixir-autogen, elixir-format
+msgid "Keyword"
+msgstr "Ключова дума"
+
+#: lib/auction_web/live/listing_live/sort_options_component.ex:6
+#, elixir-autogen, elixir-format
+msgid "ID"
+msgstr "Hомер"
+
+#: lib/auction_web/live/my_listings_live.ex:27
+#, elixir-autogen, elixir-format
+msgid "Favourites"
+msgstr "Любими"
+
+#: lib/auction_web/live/my_listings_live.ex:38
+#, elixir-autogen, elixir-format, fuzzy
+msgid "My Listings"
+msgstr "Моите обяви"

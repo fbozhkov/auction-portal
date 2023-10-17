@@ -36,33 +36,25 @@
       <div class="flex gap-4 content-center items-center p-8">
         <.link patch={~p"/listings"}>
           <.button>
-            <%= gettext "All listings" %>
+            <%= gettext("All listings") %>
           </.button>
         </.link>
-        <.link patch={~p"/listings/new"}>
+        <.link patch={~p"/#{@locale}/listings/new"}>
           <.button>
-            <%= gettext "Sell your car" %>
+            <%= gettext("Sell your car") %>
           </.button>
         </.link>
         <%= if @current_user do %>
           <.link patch={~p"/my_listings"}>
             <.button>
-              <%= gettext "My listings" %>
+              <%= gettext("My listings") %>
             </.button>
           </.link>
         <% end %>
       </div>
       <ul class="auth-buttons">
         <li>
-          <.link
-            href={~p"/en"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            <%= @locale %>
-          </.link>
-        </li>
-        <li>
-          <.lang_switcher locale={@locale} url={@conn.request_path}/>
+          <.lang_switcher locale={@locale} url={@conn.request_path} />
         </li>
         <%= if @current_user do %>
           <li class="text-[0.8125rem] leading-6 text-zinc-900">
@@ -73,34 +65,34 @@
               href={~p"/users/settings"}
               class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
-              <%= gettext "Settings" %>
+              <%= gettext("Settings") %>
             </.link>
           </li>
           <li>
             <.link
-              href={~p"/users/log_out"}
+              href={~p"/#{@locale}/users/log_out"}
               method="delete"
               class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
-              <%= gettext "Log out" %>
+              <%= gettext("Log out") %>
             </.link>
           </li>
         <% else %>
           <li>
             <.link
-              href={~p"/users/register"}
+              href={~p"/#{@locale}/users/register"}
               class="text-sm  text-zinc-900 font-semibold hover:text-zinc-700"
             >
-              Register
+              <%= gettext("Register") %>
             </.link>
           </li>
           <li>
             <.link
-              href={~p"/users/log_in"}
+              href={~p"/#{@locale}/users/log_in"}
               class="text-sm leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
               <.button>
-                Log in
+                <%= gettext("Log in") %>
               </.button>
             </.link>
           </li>

@@ -34,14 +34,14 @@ defmodule AuctionWeb.Plugs.SetLocale do
         } = conn,
         config
       ) do
-        IO.inspect(request_path, label: "request_path")
-        IO.inspect(requested_locale, label: "requested_locale")
-
     if request_path != "/" and supported_locale?(requested_locale, config) do
       if Enum.member?(config.additional_locales, requested_locale),
         do: Gettext.put_locale(config.gettext, config.default_locale),
         else: Gettext.put_locale(config.gettext, requested_locale)
-      assign(conn, :locale, requested_locale)
+
+      conn
+      |> assign(:locale, requested_locale)
+      |> put_session(:locale, requested_locale)
     else
       path = rewrite_path(conn, requested_locale, config)
 
@@ -72,7 +72,6 @@ defmodule AuctionWeb.Plugs.SetLocale do
   defp prepend_locale_to_path(request_path, locale) when locale != "" do
     "/#{locale}#{request_path}"
   end
-
 
   defp determine_locale(conn, nil, config) do
     determined_locale =

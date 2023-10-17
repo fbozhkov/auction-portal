@@ -56,71 +56,71 @@ defmodule AuctionWeb.ListingDetailsLive do
           <img src={~p"/images/car-logo.png"} % />
         </div>
         <div class="border-container">
-          <h3>Vehicle Information</h3>
+          <h3><%= gettext("Vehicle Information") %></h3>
           <div class="row">
-            <span> Lot Number: </span>
+            <span><%= gettext("Lot Number: ") %></span>
             <span><%= @listing.id %></span>
           </div>
           <div class="row">
-            <span> Make: </span>
+            <span><%= gettext("Make: ") %></span>
             <span><%= @listing.make %></span>
           </div>
           <div class="row">
-            <span> Model: </span>
+            <span><%= gettext("Model: ") %></span>
             <span><%= @listing.model %></span>
           </div>
           <div class="row">
-            <span> Year: </span>
+            <span><%= gettext("Year: ") %></span>
             <span><%= @listing.year %></span>
           </div>
           <div class="row">
-            <span> Odometer: </span>
+            <span><%= gettext("Odometer: ") %></span>
             <span><%= @listing.odometer %></span>
           </div>
           <div class="row">
-            <span> Engine: </span>
+            <span><%= gettext("Engine: ") %></span>
             <span><%= @listing.engine %></span>
           </div>
           <div class="row">
-            <span> Transmission: </span>
+            <span><%= gettext("Transmission: ") %></span>
             <span><%= @listing.transmission %></span>
           </div>
           <div class="row">
-            <span> Fuel: </span>
+            <span><%= gettext("Fuel: ") %></span>
             <span><%= @listing.fuel %></span>
           </div>
           <div class="row">
-            <span> Color: </span>
+            <span><%= gettext("Color: ") %></span>
             <span><%= @listing.color %></span>
           </div>
         </div>
         <div class="border-container">
-          <h3>Bid Information</h3>
+          <h3><%= gettext("Bid Information") %></h3>
           <div class="row">
-            <span> End time: </span>
+            <span><%= gettext("Auction end: ") %></span>
             <span><%= @listing.end_date %></span>
           </div>
           <div class="row">
-            <span> Time left: </span>
+            <span><%= gettext("Time left: ") %></span>
             <span><%= @time_left %></span>
           </div>
           <div class="row">
-            <span> Current Bid: </span>
+            <span><%= gettext("Current Bid: ") %></span>
             <span><%= @listing.current_bid %>$</span>
           </div>
           <%= if @current_user do %>
             <form phx-submit="place_bid" phx-change="validate">
-              <p class="mb-2">Your Bid:</p>
+              <p class="mb-2"><%= gettext("Your Bid:") %></p>
               <div class="flex">
                 <p class="dollar">$</p>
                 <input value={@bid} name="bid" type="text" placeholder="0" />
               </div>
-              <.button class="btn">Place Bid</.button>
+              <.button class="btn"><%= gettext("Place Bid") %></.button>
             </form>
           <% else %>
             <p>
-              You need to <a href="/users/log_in">log in</a>
-              in order to bid.
+              <%= gettext("You need to ") %><a href="/users/log_in"><%= gettext "log in" %></a>
+              <%= gettext("in order to bid.") %>
             </p>
           <% end %>
         </div>
@@ -153,7 +153,7 @@ defmodule AuctionWeb.ListingDetailsLive do
         {:noreply, assign(socket, :bid, bid)}
 
       _ ->
-        socket = put_flash(socket, :error, "Bid must be greater than current bid")
+        socket = put_flash(socket, :error, gettext("Bid must be greater than current bid"))
         {:noreply, assign(socket, :bid, nil)}
     end
   end
@@ -165,11 +165,11 @@ defmodule AuctionWeb.ListingDetailsLive do
 
     case Listings.update_listing_bid(socket.assigns.listing, payload) do
       {:ok, _listing} ->
-        socket = put_flash(socket, :info, "Current bid updated #{bid}")
+        socket = put_flash(socket, :info, gettext("Current bid updated %{bid}", bid: bid))
         {:noreply, socket}
 
       {:error, _changeset} ->
-        socket = put_flash(socket, :error, "Error updating bid #{bid}")
+        socket = put_flash(socket, :error, gettext("Error updating bid %{bid}", bid: bid))
         {:noreply, socket}
     end
   end
@@ -192,7 +192,13 @@ defmodule AuctionWeb.ListingDetailsLive do
     minutes = div(rem(timeleft, 3_600), 60)
     seconds = rem(timeleft, 60)
 
-    formatted_time_left = "#{days}D #{hours}H #{minutes} min #{seconds} sec"
+    formatted_time_left =
+      gettext("%{days}D %{hours}H %{minutes} min %{seconds} sec", %{
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+      })
 
     assign(socket, :time_left, formatted_time_left)
   end

@@ -22,8 +22,8 @@ config :auction, AuctionWeb.Endpoint,
 
 # Configures Gettext locales
 config :auction, AuctionWeb.Gettext,
-    default_locale: "en",
-    locales: ~w(en bg)
+  default_locale: "en",
+  locales: ~w(en bg)
 
 # Configures the mailer
 #

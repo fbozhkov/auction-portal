@@ -54,6 +54,7 @@ defmodule AuctionWeb do
       use Phoenix.LiveView,
         layout: {AuctionWeb.Layouts, :app}
 
+      on_mount AuctionWeb.RestoreLocale
       unquote(html_helpers())
     end
   end
