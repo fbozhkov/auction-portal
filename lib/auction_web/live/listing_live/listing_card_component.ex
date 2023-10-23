@@ -10,11 +10,12 @@ defmodule AuctionWeb.ListingCardComponent do
   end
 
   def render(assigns) do
+    image = hd(assigns.listing.image_upload)
     ~H"""
     <div class="card" id={"listing-#{@id}"}>
       <.link patch={~p"/#{@locale}/listings/#{@listing.id}"}>
         <div class="thumbnail">
-          <img src={~p"/images/car-logo.png"} % />
+          <img src={~p"/uploads/#{image}"} % />
         </div>
       </.link>
       <div class="details">

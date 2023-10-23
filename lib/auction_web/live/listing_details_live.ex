@@ -39,6 +39,7 @@ defmodule AuctionWeb.ListingDetailsLive do
   end
 
   def render(assigns) do
+    image = assigns.listing.image_upload
     ~H"""
     <div id="listing-details">
       <div class="heading">
@@ -53,11 +54,12 @@ defmodule AuctionWeb.ListingDetailsLive do
       </div>
       <div class="wrapper">
         <div class="images">
-          <img src={~p"/images/car-logo.png"} % />
+          <img src={~p"/uploads/#{image}"} % />
         </div>
         <div class="border-container">
           <h3><%= gettext("Vehicle Information") %></h3>
           <div class="row">
+
             <span><%= gettext("Lot Number: ") %></span>
             <span><%= @listing.id %></span>
           </div>

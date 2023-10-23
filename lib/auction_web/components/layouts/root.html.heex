@@ -34,7 +34,7 @@
         </.link>
       </div>
       <div class="flex gap-4 content-center items-center p-8">
-        <.link patch={~p"/listings"}>
+        <.link patch={~p"/#{@locale}/listings"}>
           <.button>
             <%= gettext("All listings") %>
           </.button>
@@ -45,7 +45,7 @@
           </.button>
         </.link>
         <%= if @current_user do %>
-          <.link patch={~p"/my_listings"}>
+          <.link patch={~p"/#{@locale}/my_listings"}>
             <.button>
               <%= gettext("My listings") %>
             </.button>

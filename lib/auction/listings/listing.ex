@@ -15,6 +15,7 @@ defmodule Auction.Listings.Listing do
     field(:year, :integer)
     field(:current_bid, :integer)
     field(:seller_id, :integer)
+    field(:image_upload, :string)
     has_many :bids, Auction.Listings.Bid, on_delete: :delete_all
     many_to_many :users, Auction.Users.User, join_through: Auction.Users.UserShortlist
 
@@ -36,7 +37,8 @@ defmodule Auction.Listings.Listing do
       :end_date,
       :minimum_price,
       :current_bid,
-      :seller_id
+      :seller_id,
+      :image_upload
     ])
     |> validate_required([
       :make,
