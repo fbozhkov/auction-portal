@@ -50,7 +50,6 @@ defmodule AuctionWeb.SortOptionsComponent do
   end
 
   def sort_opt(assigns) do
-    caret_or_v =
       if assigns.options.sort_order == :asc do
         "👆"
       else

@@ -2,13 +2,12 @@ defmodule AuctionWeb.MyListingsLive do
   use AuctionWeb, :live_view
 
   alias Auction.Listings
-  alias Auction.Users.User
 
   alias AuctionWeb.ListingCardComponent
 
   on_mount({AuctionWeb.UserAuth, :mount_current_user})
 
-  def mount(%{"locale" => locale}, session, socket) do
+  def mount(%{"locale" => locale}, _session, socket) do
     socket =
       assign(
         socket,

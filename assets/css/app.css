@@ -9,15 +9,19 @@ h1 {
 }
 
 .nav {
-    @apply flex justify-between; 
+    @apply flex h-32 justify-between; 
 }
 
 #logo {
-    @apply p-8
+    @apply m-8;
 }
 
 img {
-    @apply w-24;
+    @apply w-24 shrink-0;
+}
+
+.nav-links {
+    @apply hidden lg:flex lg:w-full lg:justify-between;
 }
 
 .auth-buttons {
@@ -40,21 +44,49 @@ img {
     @apply px-4 py-2 hover:bg-orange-500 rounded hover:text-white 
 }
 
+.hamburger-btn {
+    @apply pr-9 lg:hidden;
+}
+
+.hamburger-icon {
+    @apply h-8 w-8;
+}
+
 .hero {
-    background-image: url('hero-image.jpg');
+    background-image: url('/images/Hanamaru-car-auction1.jpg');
     background-size: cover;
     text-align: center;
     padding: 5rem 0;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dim-bgr {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hero-content {
+    top: 30%;
+    position: relative;
 }
 
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: white;
 }
 
 .hero p {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
+    color: white;
 }
 
 .cta-button {
@@ -86,11 +118,11 @@ img {
 /* Listings */
 
 #listings {
-    @apply mt-8 max-w-6xl mx-auto;
+    @apply mt-8 max-w-7xl mx-auto;
 }
 
 #listings .listings {
-    @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
+    @apply my-10 grid gap-6 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
 }
 
 #listings .search {
@@ -245,13 +277,13 @@ img {
 }
 
 #my-listings .listings {
-    @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
+    @apply my-10 grid gap-6 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
 }
 
 /* Listing Details */
 
 #listing-details {
-    @apply mt-8 mx-auto;
+    @apply mt-8 mx-auto w-full;
 }
 
 #listing-details .heading {
@@ -264,20 +296,27 @@ img {
 }
 
 #listing-details .wrapper {
-    @apply flex;
-}   
+    @apply flex flex-col gap-3 lg:flex lg:flex-row lg:gap-3;
+}  
+
+#listing-details .gallery {
+    @apply overflow-hidden lg:flex-initial lg:w-1/3;
+}
 
 #listing-details .images {
-    @apply basis-2/5 grow-[2];
+    @apply basis-2/5 grow-[2] ;
 }
 
 #listing-details img {
     @apply w-full;
 }
 
+#listing-details .info-wrapper {
+    @apply flex flex-col gap-3 lg:flex lg:flex-auto lg:flex-row lg:gap-3;
+}
 
 #listing-details .border-container {
-    @apply basis-1/4 h-fit border-2 border-gray-200 rounded-lg ml-3 p-2;
+    @apply basis-1/4 h-fit border-2 border-gray-200 rounded-lg p-2;
 }
 
 #listing-details .border-container .btn {

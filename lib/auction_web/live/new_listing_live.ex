@@ -4,19 +4,20 @@ defmodule AuctionWeb.NewListingLive do
   alias Auction.Listings
   alias Auction.Listings.Listing
 
-  def mount(_params, _session, socket) do
+  def mount(%{"locale" => locale}, _session, socket) do
     socket =
       allow_upload(
         socket,
         :photos,
+        auto_upload: true,
         accept: ~w(.png .jpg .jpeg .webp),
-        max_entries: 3,
+        max_entries: 8,
         max_file_size: 8_000_000
       )
-    {:ok, socket}
+    {:ok, assign(socket, locale: locale)}
   end
 
-  def handle_params(params, _url, socket) do
+  def handle_params(_params, _url, socket) do
     changeset = Listings.change_listing(%Listing{seller_id: socket.assigns.current_user.id})
 
     {:noreply, assign(socket, :form, to_form(changeset))}
@@ -184,13 +185,10 @@ defmodule AuctionWeb.NewListingLive do
 
         File.cp!(meta.path, dest)
 
-        url_path = static_path(socket, "/uploads/#{Path.basename(dest)}")
         image_name = Path.basename(dest)
 
         {:ok, image_name}
       end)
-
-    IO.inspect(image_upload, label: "image_upload>>>>>>>>>>>>>>>>>>>>>>>>")
 
     listing_params = Map.put(listing_params, "image_upload", image_upload)
 

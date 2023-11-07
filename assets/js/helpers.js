@@ -1,4 +1,4 @@
-function toggleDropdown() {
+export default function toggleDropdown() {
     let dropdown = document.getElementById("dropdown");
     if (dropdown.style.display === "block") {
         dropdown.style.display = "none";

@@ -15,6 +15,16 @@
       src={~p"/assets/app.js"}
     >
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <script
+    defer
+      phx-track-static
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
       function toggleDropdown() {
         let dropdown = document.getElementById("dropdown");
@@ -24,6 +34,14 @@
             dropdown.style.display = "block";
         }
       }
+      function toggleHamburger() {
+        let dropdown = document.getElementById("hamburger-dropdown");
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
     </script>
   </head>
   <body class="bg-white antialiased">
@@ -33,72 +51,144 @@
           <img src={~p"/images/car-logo.png"} alt="Home" />
         </.link>
       </div>
-      <div class="flex gap-4 content-center items-center p-8">
-        <.link patch={~p"/#{@locale}/listings"}>
-          <.button>
-            <%= gettext("All listings") %>
-          </.button>
-        </.link>
-        <.link patch={~p"/#{@locale}/listings/new"}>
-          <.button>
-            <%= gettext("Sell your car") %>
-          </.button>
-        </.link>
-        <%= if @current_user do %>
-          <.link patch={~p"/#{@locale}/my_listings"}>
+      <div class="nav-links">
+        <div class="flex gap-4 content-center items-center p-8">
+          <.link patch={~p"/#{@locale}/listings"}>
             <.button>
-              <%= gettext("My listings") %>
+              <%= gettext("All listings") %>
             </.button>
           </.link>
-        <% end %>
-      </div>
-      <ul class="auth-buttons">
-        <li>
-          <.lang_switcher locale={@locale} url={@conn.request_path} />
-        </li>
-        <%= if @current_user do %>
-          <li class="text-[0.8125rem] leading-6 text-zinc-900">
-            <%= @current_user.email %>
-          </li>
-          <li>
-            <.link
-              href={~p"/users/settings"}
-              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-            >
-              <%= gettext("Settings") %>
-            </.link>
-          </li>
-          <li>
-            <.link
-              href={~p"/#{@locale}/users/log_out"}
-              method="delete"
-              class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-            >
-              <%= gettext("Log out") %>
-            </.link>
-          </li>
-        <% else %>
-          <li>
-            <.link
-              href={~p"/#{@locale}/users/register"}
-              class="text-sm  text-zinc-900 font-semibold hover:text-zinc-700"
-            >
-              <%= gettext("Register") %>
-            </.link>
-          </li>
-          <li>
-            <.link
-              href={~p"/#{@locale}/users/log_in"}
-              class="text-sm leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-            >
+          <.link patch={~p"/#{@locale}/listings/new"}>
+            <.button>
+              <%= gettext("Sell your car") %>
+            </.button>
+          </.link>
+          <%= if @current_user do %>
+            <.link patch={~p"/#{@locale}/my_listings"}>
               <.button>
-                <%= gettext("Log in") %>
+                <%= gettext("My listings") %>
               </.button>
             </.link>
+          <% end %>
+        </div>
+        <ul class="auth-buttons">
+          <li>
+            <.lang_switcher id="desktop" locale={@locale} url={@conn.request_path} />
           </li>
-        <% end %>
-      </ul>
+          <%= if @current_user do %>
+            <li class="text-[0.8125rem] leading-6 text-zinc-900">
+              <%= @current_user.email %>
+            </li>
+            <li>
+              <.link
+                href={~p"/users/settings"}
+                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Settings") %>
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/log_out"}
+                method="delete"
+                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Log out") %>
+              </.link>
+            </li>
+          <% else %>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/register"}
+                class="text-sm  text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Register") %>
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/log_in"}
+                class="text-sm leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <.button>
+                  <%= gettext("Log in") %>
+                </.button>
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <button class="hamburger-btn" phx-click={AuctionWeb.App.toggle_dropdown("hamburger-dropdown")}>
+        <.icon name="hero-bars-3" class="hamburger-icon" />
+      </button>
     </div>
+    <div class="hidden mb-8" id="hamburger-dropdown">
+        <div class="flex flex-col gap-4 items-center">
+          <.link patch={~p"/#{@locale}/listings"}>
+            <.button>
+              <%= gettext("All listings") %>
+            </.button>
+          </.link>
+          <.link patch={~p"/#{@locale}/listings/new"}>
+            <.button>
+              <%= gettext("Sell your car") %>
+            </.button>
+          </.link>
+          <%= if @current_user do %>
+            <.link patch={~p"/#{@locale}/my_listings"}>
+              <.button>
+                <%= gettext("My listings") %>
+              </.button>
+            </.link>
+          <% end %>
+        </div>
+        <ul class="flex mt-4 flex-col gap-4 items-center">
+          <li>
+            <.lang_switcher id="mobile" locale={@locale} url={@conn.request_path} />
+          </li>
+          <%= if @current_user do %>
+            <li class="text-[0.8125rem] leading-6 text-zinc-900">
+              <%= @current_user.email %>
+            </li>
+            <li>
+              <.link
+                href={~p"/users/settings"}
+                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Settings") %>
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/log_out"}
+                method="delete"
+                class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Log out") %>
+              </.link>
+            </li>
+          <% else %>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/register"}
+                class="text-sm  text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <%= gettext("Register") %>
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/#{@locale}/users/log_in"}
+                class="text-sm leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                <.button>
+                  <%= gettext("Log in") %>
+                </.button>
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     <%= @inner_content %>
   </body>
 </html>

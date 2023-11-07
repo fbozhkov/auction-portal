@@ -1,6 +1,8 @@
 defmodule AuctionWeb.ListingDetailsLive do
   use AuctionWeb, :live_view
 
+  alias AuctionWeb.GalleryComponent
+
   alias Auction.Listings
   alias Auction.Users.User
   alias Auction.Users
@@ -39,7 +41,6 @@ defmodule AuctionWeb.ListingDetailsLive do
   end
 
   def render(assigns) do
-    image = assigns.listing.image_upload
     ~H"""
     <div id="listing-details">
       <div class="heading">
@@ -53,80 +54,87 @@ defmodule AuctionWeb.ListingDetailsLive do
         <% end %>
       </div>
       <div class="wrapper">
-        <div class="images">
-          <img src={~p"/uploads/#{image}"} % />
+        <div class="gallery">
+          <.live_component
+                module={GalleryComponent}
+                id={"gallery-component"}
+                images={@listing.images}
+              />
         </div>
-        <div class="border-container">
-          <h3><%= gettext("Vehicle Information") %></h3>
-          <div class="row">
+        <div class="info-wrapper">
+          <div class="border-container flex-auto">
+            <h3><%= gettext("Vehicle Information") %></h3>
+            <div class="row">
 
-            <span><%= gettext("Lot Number: ") %></span>
-            <span><%= @listing.id %></span>
+              <span><%= gettext("Lot Number: ") %></span>
+              <span><%= @listing.id %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Make: ") %></span>
+              <span><%= @listing.make %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Model: ") %></span>
+              <span><%= @listing.model %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Year: ") %></span>
+              <span><%= @listing.year %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Odometer: ") %></span>
+              <span><%= @listing.odometer %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Engine: ") %></span>
+              <span><%= @listing.engine %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Transmission: ") %></span>
+              <span><%= @listing.transmission %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Fuel: ") %></span>
+              <span><%= @listing.fuel %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Color: ") %></span>
+              <span><%= @listing.color %></span>
+            </div>
           </div>
-          <div class="row">
-            <span><%= gettext("Make: ") %></span>
-            <span><%= @listing.make %></span>
+          <div class="border-container flex-auto">
+            <h3><%= gettext("Bid Information") %></h3>
+            <div class="row">
+              <span><%= gettext("Auction end: ") %></span>
+              <span><%= @listing.end_date %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Time left: ") %></span>
+              <span><%= @time_left %></span>
+            </div>
+            <div class="row">
+              <span><%= gettext("Current Bid: ") %></span>
+              <span><%= @listing.current_bid %>$</span>
+            </div>
+            <%= if @current_user do %>
+              <form phx-submit="place_bid" phx-change="validate">
+                <p class="mb-2"><%= gettext("Your Bid:") %></p>
+                <div class="flex">
+                  <p class="dollar">$</p>
+                  <input value={@bid} name="bid" type="text" placeholder="0" />
+                </div>
+                <.button class="btn"><%= gettext("Place Bid") %></.button>
+              </form>
+            <% else %>
+              <p>
+                <%= gettext("You need to ") %><a href="/users/log_in"><%= gettext "log in" %></a>
+                <%= gettext("in order to bid.") %>
+              </p>
+            <% end %>
           </div>
-          <div class="row">
-            <span><%= gettext("Model: ") %></span>
-            <span><%= @listing.model %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Year: ") %></span>
-            <span><%= @listing.year %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Odometer: ") %></span>
-            <span><%= @listing.odometer %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Engine: ") %></span>
-            <span><%= @listing.engine %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Transmission: ") %></span>
-            <span><%= @listing.transmission %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Fuel: ") %></span>
-            <span><%= @listing.fuel %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Color: ") %></span>
-            <span><%= @listing.color %></span>
-          </div>
-        </div>
-        <div class="border-container">
-          <h3><%= gettext("Bid Information") %></h3>
-          <div class="row">
-            <span><%= gettext("Auction end: ") %></span>
-            <span><%= @listing.end_date %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Time left: ") %></span>
-            <span><%= @time_left %></span>
-          </div>
-          <div class="row">
-            <span><%= gettext("Current Bid: ") %></span>
-            <span><%= @listing.current_bid %>$</span>
-          </div>
-          <%= if @current_user do %>
-            <form phx-submit="place_bid" phx-change="validate">
-              <p class="mb-2"><%= gettext("Your Bid:") %></p>
-              <div class="flex">
-                <p class="dollar">$</p>
-                <input value={@bid} name="bid" type="text" placeholder="0" />
-              </div>
-              <.button class="btn"><%= gettext("Place Bid") %></.button>
-            </form>
-          <% else %>
-            <p>
-              <%= gettext("You need to ") %><a href="/users/log_in"><%= gettext "log in" %></a>
-              <%= gettext("in order to bid.") %>
-            </p>
-          <% end %>
         </div>
       </div>
+
     </div>
     """
   end

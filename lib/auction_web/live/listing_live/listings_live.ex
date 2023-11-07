@@ -48,8 +48,9 @@ defmodule AuctionWeb.ListingsLive do
     ~H"""
     <div id="listings">
       <div class="search">
-        <form phx-submit="search">
+        <form phx-submit="search" class="w-full lg:w-auto">
           <input
+            class="w-full"
             type="text"
             name="keyword"
             value={@options.keyword}
