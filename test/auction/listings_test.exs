@@ -162,4 +162,58 @@ defmodule Auction.ListingsTest do
       assert %Ecto.Changeset{} = Listings.change_bid(bid)
     end
   end
+
+  describe "images" do
+    alias Auction.Listings.Image
+
+    import Auction.ListingsFixtures
+
+    @invalid_attrs %{image_filename: nil}
+
+    test "list_images/0 returns all images" do
+      image = image_fixture()
+      assert Listings.list_images() == [image]
+    end
+
+    test "get_image!/1 returns the image with given id" do
+      image = image_fixture()
+      assert Listings.get_image!(image.id) == image
+    end
+
+    test "create_image/1 with valid data creates a image" do
+      valid_attrs = %{image_filename: "some image_filename"}
+
+      assert {:ok, %Image{} = image} = Listings.create_image(valid_attrs)
+      assert image.image_filename == "some image_filename"
+    end
+
+    test "create_image/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Listings.create_image(@invalid_attrs)
+    end
+
+    test "update_image/2 with valid data updates the image" do
+      image = image_fixture()
+      update_attrs = %{image_filename: "some updated image_filename"}
+
+      assert {:ok, %Image{} = image} = Listings.update_image(image, update_attrs)
+      assert image.image_filename == "some updated image_filename"
+    end
+
+    test "update_image/2 with invalid data returns error changeset" do
+      image = image_fixture()
+      assert {:error, %Ecto.Changeset{}} = Listings.update_image(image, @invalid_attrs)
+      assert image == Listings.get_image!(image.id)
+    end
+
+    test "delete_image/1 deletes the image" do
+      image = image_fixture()
+      assert {:ok, %Image{}} = Listings.delete_image(image)
+      assert_raise Ecto.NoResultsError, fn -> Listings.get_image!(image.id) end
+    end
+
+    test "change_image/1 returns a image changeset" do
+      image = image_fixture()
+      assert %Ecto.Changeset{} = Listings.change_image(image)
+    end
+  end
 end

@@ -17,7 +17,7 @@ defmodule AuctionWeb do
   those modules here.
   """
 
-  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt uploads)
 
   def router do
     quote do
@@ -54,6 +54,7 @@ defmodule AuctionWeb do
       use Phoenix.LiveView,
         layout: {AuctionWeb.Layouts, :app}
 
+      on_mount AuctionWeb.RestoreLocale
       unquote(html_helpers())
     end
   end
@@ -86,6 +87,8 @@ defmodule AuctionWeb do
       # Core UI components and translation
       import AuctionWeb.CoreComponents
       import AuctionWeb.Gettext
+      # Custom UI components
+      import AuctionWeb.CustomComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

@@ -6,7 +6,9 @@ defmodule AuctionWeb.UserConfirmationLive do
   def render(%{live_action: :edit} = assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-      <.header class="text-center">Confirm Account</.header>
+      <.header class="text-center">
+        <%= gettext("Confirm Account") %>
+      </.header>
 
       <.simple_form
         for={@form}
@@ -15,15 +17,18 @@ defmodule AuctionWeb.UserConfirmationLive do
       >
         <.input field={@form[:token]} type="hidden" />
         <:actions>
-          <.button phx-disable-with="Confirming..." class="w-full">
-            Confirm my account
+          <.button
+            phx-disable-with={gettext("Confirming...")}
+            class="w-full"
+          >
+            <%= gettext("Confirm my account") %>
           </.button>
         </:actions>
       </.simple_form>
 
       <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
+        <.link href={~p"/users/register"}><%= gettext("Register") %></.link>
+        | <.link href={~p"/users/log_in"}><%= gettext("Log in") %></.link>
       </p>
     </div>
     """
@@ -41,7 +46,7 @@ defmodule AuctionWeb.UserConfirmationLive do
       {:ok, _} ->
         {:noreply,
          socket
-         |> put_flash(:info, "User confirmed successfully.")
+         |> put_flash(:info, gettext("User confirmed successfully."))
          |> redirect(to: ~p"/")}
 
       :error ->
@@ -56,7 +61,7 @@ defmodule AuctionWeb.UserConfirmationLive do
           %{} ->
             {:noreply,
              socket
-             |> put_flash(:error, "User confirmation link is invalid or it has expired.")
+             |> put_flash(:error, gettext("User confirmation link is invalid or it has expired."))
              |> redirect(to: ~p"/")}
         end
     end

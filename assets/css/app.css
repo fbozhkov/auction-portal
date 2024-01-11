@@ -9,52 +9,168 @@ h1 {
 }
 
 .nav {
-    @apply flex justify-between; 
+    @apply flex h-32 justify-between; 
 }
 
 #logo {
-    @apply p-8
+    @apply m-8;
 }
 
 img {
-    @apply w-24;
+    @apply w-24 shrink-0;
+}
+
+.nav-links {
+    @apply hidden lg:flex lg:w-full lg:justify-between;
 }
 
 .auth-buttons {
     @apply flex gap-4 content-center items-center p-8;
 }
 
+.dropdown-btn {
+    @apply px-4 py-2 hover:bg-gray-200 rounded cursor-pointer;
+}
+
+.dropdown-icon {
+    @apply h-6 w-6;
+}
+
+.dropdown-content {
+    @apply hidden absolute rounded bg-gray-200 w-full shadow-md z-10
+}
+
+.dropdown-item {
+    @apply px-4 py-2 hover:bg-orange-500 rounded hover:text-white 
+}
+
+.hamburger-btn {
+    @apply pr-9 lg:hidden;
+}
+
+.hamburger-icon {
+    @apply h-8 w-8;
+}
+
+.hero {
+    background-image: url('/images/Hanamaru-car-auction1.jpg');
+    background-size: cover;
+    text-align: center;
+    padding: 5rem 0;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dim-bgr {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hero-content {
+    top: 30%;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #ff6600;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e65100;
+}
+
+/* No page found */
+
+#no-page {
+    @apply mt-8 max-w-6xl mx-auto flex flex-col gap-4;
+}
+
+#no-page h1 {
+    @apply text-left text-slate-900 font-extrabold text-3xl;
+}
+
+
 /* Listings */
 
 #listings {
-    @apply mt-8 max-w-6xl mx-auto;
+    @apply mt-8 max-w-7xl mx-auto;
 }
 
 #listings .listings {
-    @apply my-10 grid gap-6 grid-cols-2 md:grid-cols-4;
+    @apply my-10 grid gap-6 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+}
+
+#listings .search {
+    @apply flex justify-between items-center mb-4;
+}
+
+#listings .search form {
+    @apply inline-flex items-center mb-4;
+}
+
+#listings .search form input[type="text"] {
+    @apply h-10 border border-slate-400 rounded-l-md bg-white px-5 text-base;
+}
+
+#listings .search form input[type="text"]:focus {
+    @apply outline-none;
+}
+
+#listings .search button {
+    @apply h-10 px-3 py-2 bg-transparent border border-slate-400 border-l-0 rounded-r-md transition ease-in-out duration-150 outline-none hover:bg-slate-300;
+}
+
+#listings .search button img,
+#listings .search button svg {
+    @apply h-5 w-5;
 }
 
 #listings .sort-filter {
     @apply flex justify-between items-center mb-4;
 }
 
-#listings .sort-options {
+#listings .sort-filter .sort-options {
     @apply flex;
 }
 
-#listings form {
+#listings .sort-filter form {
     @apply flex items-center justify-end mb-4;
 }
 
-#listings form label {
+#listings .sort-filter form label {
     @apply text-slate-700 font-semibold mr-2;
 }
 
-#listings form select {
+#listings .sort-filter form select {
     @apply appearance-none bg-slate-200 border border-slate-400 text-slate-700 py-0 pr-7 mr-2 h-8 rounded-lg font-semibold cursor-pointer text-sm mx-1;
 }
 
-#listings form select:focus {
+#listings .sort-filter form select:focus {
     @apply outline-none bg-slate-200 border-slate-500;
 }
 
@@ -122,32 +238,85 @@ img {
     @apply text-green-700 font-bold text-lg mb-2;
 }
 
+/* Listing Card */
+.card {
+    @apply max-w-md rounded bg-white overflow-hidden shadow-lg;
+}
+
+.card img {
+    @apply w-full;
+}
+
+.card .details {
+    @apply px-4 py-4;
+}
+
+.card .details h3 {
+    @apply text-gray-900 font-bold text-lg mb-2;
+}
+
+.card .details p {
+    @apply text-gray-900 text-sm mb-2;
+}
+
+.card .details .bid {
+    @apply text-gray-900 border-t-2 text-sm pt-2 mb-2;
+}
+
+.card .details .price {
+    @apply text-green-700 font-bold text-lg mb-2;
+}
+
+/* My Listings */
+#my-listings {
+    @apply mt-8 max-w-6xl mx-auto;
+}
+
+#my-listings h3 {
+    @apply text-left text-slate-900 font-extrabold text-3xl;
+}
+
+#my-listings .listings {
+    @apply my-10 grid gap-6 justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+}
+
 /* Listing Details */
 
 #listing-details {
-    @apply mt-8 mx-auto;
+    @apply mt-8 mx-auto w-full;
 }
 
-#listing-details h2 {
-    @apply text-slate-900 font-extrabold text-3xl pb-2
-            border-b-2 border-gray-200 mb-4;
+#listing-details .heading {
+    @apply flex justify-between items-center border-b-2
+            border-gray-200 pb-2 mb-4;
+}
+
+#listing-details .heading h2 {
+    @apply text-slate-900 font-extrabold text-3xl;
 }
 
 #listing-details .wrapper {
-    @apply flex;
-}   
+    @apply flex flex-col gap-3 lg:flex lg:flex-row lg:gap-3;
+}  
+
+#listing-details .gallery {
+    @apply overflow-hidden lg:flex-initial lg:w-1/3;
+}
 
 #listing-details .images {
-    @apply basis-2/5 grow-[2];
+    @apply basis-2/5 grow-[2] ;
 }
 
 #listing-details img {
     @apply w-full;
 }
 
+#listing-details .info-wrapper {
+    @apply flex flex-col gap-3 lg:flex lg:flex-auto lg:flex-row lg:gap-3;
+}
 
 #listing-details .border-container {
-    @apply basis-1/4 h-fit border-2 border-gray-200 rounded-lg ml-3 p-2;
+    @apply basis-1/4 h-fit border-2 border-gray-200 rounded-lg p-2;
 }
 
 #listing-details .border-container .btn {
@@ -180,4 +349,162 @@ img {
 
 #listing-details .bidding {
 
+}
+
+/* New Lisitng */
+
+#new-listing {
+    @apply max-w-6xl mt-8 mx-auto;
+}
+
+#new-listing .field {
+    @apply mb-4;
+}
+
+#new-listing-form .hint {
+    @apply my-4 text-slate-600 text-sm;
+}
+
+#new-listing-form .drop {
+    @apply flex items-baseline justify-center space-x-1 my-2 p-4 border-2 border-dashed border-slate-300 rounded-md text-center text-slate-600;
+}
+
+#new-listing-form .drop label {
+    @apply cursor-pointer font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500;
+}
+
+#new-listing-form .drop p {
+    @apply text-sm text-slate-500;
+}
+
+#new-listing-form .drop img {
+    @apply mx-auto h-12 w-12;
+}
+
+#new-listing-form .entry {
+    @apply my-6 flex items-center justify-start space-x-6;
+}
+
+#new-listing-form .entry img {
+    @apply w-32;
+}
+
+#new-listing-form .entry .progress {
+    @apply w-full;
+}
+
+#new-listing-form .entry .progress .value {
+    @apply text-left mb-2 text-xs font-semibold inline-block text-indigo-600;
+}
+
+#new-listing-form .entry .progress .bar {
+    @apply flex h-2 overflow-hidden text-base bg-indigo-200 rounded-lg mb-4;
+}
+
+#new-listing-form .entry .progress .bar>span {
+    @apply shadow-md bg-indigo-500;
+    transition: width 1s ease;
+}
+
+#new-listing-form .entry a {
+    @apply text-3xl font-bold text-slate-700 hover:text-red-700 cursor-pointer;
+}
+
+#new-listing-form .error {
+    @apply block text-rose-600 my-2 text-sm leading-6;
+}
+
+#new-listing-form #photos {
+    @apply flex flex-wrap items-center justify-center sm:justify-start;
+}
+
+#new-listing-form #photos div[id^=desks-] {
+    @apply inline-flex;
+}
+
+#new-listing-form #photos .photo {
+    @apply text-center p-4 m-4 border-2 border-slate-300 rounded-xl;
+}
+
+#new-listing-form #photos .photo img {
+    @apply h-64 sm:h-36 mx-auto object-fill;
+}
+
+#new-listing-form #photos .photo .name {
+    @apply mt-2 text-base text-slate-600 font-medium;
+}
+
+
+/*
+ * Loading Spinner
+ *
+ * Copied from:
+ * https://projects.lukehaas.me/css-loaders/
+ */
+.loader,
+.loader:before,
+.loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+}
+
+.loader {
+    color: #5a67d8;
+    font-size: 10px;
+    margin: 20px auto;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    top: 0;
+}
+
+.loader:before {
+    left: -3.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 3.5em;
+}
+
+@-webkit-keyframes load7 {
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
+}
+
+@keyframes load7 {
+
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 2.5em 0 -1.3em;
+    }
+
+    40% {
+        box-shadow: 0 2.5em 0 0;
+    }
 }

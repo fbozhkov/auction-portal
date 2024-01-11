@@ -40,4 +40,18 @@ defmodule Auction.ListingsFixtures do
 
     bid
   end
+
+  @doc """
+  Generate a image.
+  """
+  def image_fixture(attrs \\ %{}) do
+    {:ok, image} =
+      attrs
+      |> Enum.into(%{
+        image_filename: "some image_filename"
+      })
+      |> Auction.Listings.create_image()
+
+    image
+  end
 end

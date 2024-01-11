@@ -350,4 +350,138 @@ defmodule Auction.Users do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  alias Auction.Users.UserShortlist
+
+  @doc """
+  Returns the list of user_shortlist.
+
+  ## Examples
+
+      iex> list_user_shortlist()
+      [%UserShortlist{}, ...]
+
+  """
+  def list_user_shortlist do
+    Repo.all(UserShortlist)
+  end
+
+  def list_user_favourites(user_id) do
+    Repo.all(
+      from u in UserShortlist, where: u.user_id == ^user_id and u.shortlist_type == "favourite"
+    )
+  end
+
+  def list_user_favourites_ids(user_id) do
+    Repo.all(
+      from u in UserShortlist,
+        where: u.user_id == ^user_id and u.shortlist_type == "favourite",
+        select: u.listing_id
+    )
+  end
+
+  @doc """
+  Gets a single user_shortlist.
+
+  Raises `Ecto.NoResultsError` if the User shortlist does not exist.
+
+  ## Examples
+
+      iex> get_user_shortlist!(123)
+      %UserShortlist{}
+
+      iex> get_user_shortlist!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_shortlist!(id), do: Repo.get!(UserShortlist, id)
+
+  def check_if_listing_is_favourite(user_id, listing_id) do
+    Repo.all(
+      from u in UserShortlist,
+        where:
+          u.user_id == ^user_id and u.listing_id == ^listing_id and
+            u.shortlist_type == "favourite"
+    )
+  end
+
+  @doc """
+  Creates a user_shortlist.
+
+  ## Examples
+
+      iex> create_user_shortlist(%{field: value})
+      {:ok, %UserShortlist{}}
+
+      iex> create_user_shortlist(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_user_shortlist(attrs \\ %{}) do
+    %UserShortlist{}
+    |> UserShortlist.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_favourite(attrs \\ %{}) do
+    %UserShortlist{shortlist_type: "favourite"}
+    |> UserShortlist.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a user_shortlist.
+
+  ## Examples
+
+      iex> update_user_shortlist(user_shortlist, %{field: new_value})
+      {:ok, %UserShortlist{}}
+
+      iex> update_user_shortlist(user_shortlist, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_shortlist(%UserShortlist{} = user_shortlist, attrs) do
+    user_shortlist
+    |> UserShortlist.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a user_shortlist.
+
+  ## Examples
+
+      iex> delete_user_shortlist(user_shortlist)
+      {:ok, %UserShortlist{}}
+
+      iex> delete_user_shortlist(user_shortlist)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user_shortlist(%UserShortlist{} = user_shortlist) do
+    Repo.delete(user_shortlist)
+  end
+
+  def delete_favourite(user_id, listing_id) do
+    Repo.delete_all(
+      from u in UserShortlist,
+        where:
+          u.user_id == ^user_id and u.listing_id == ^listing_id and
+            u.shortlist_type == "favourite"
+    )
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user_shortlist changes.
+
+  ## Examples
+
+      iex> change_user_shortlist(user_shortlist)
+      %Ecto.Changeset{data: %UserShortlist{}}
+
+  """
+  def change_user_shortlist(%UserShortlist{} = user_shortlist, attrs \\ %{}) do
+    UserShortlist.changeset(user_shortlist, attrs)
+  end
 end

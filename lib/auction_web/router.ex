@@ -10,6 +10,7 @@ defmodule AuctionWeb.Router do
     plug(:put_root_layout, html: {AuctionWeb.Layouts, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(AuctionWeb.Plugs.SetLocale, gettext: AuctionWeb.Gettext, default_locale: "en")
     plug(:fetch_current_user)
   end
 
@@ -17,12 +18,15 @@ defmodule AuctionWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", AuctionWeb do
+  # Protected routes
+
+  scope "/:locale", AuctionWeb do
     pipe_through([:browser, :require_authenticated_user])
 
     live_session :authenticated,
-      on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}] do
-      live("/listings/new", ListingLive.Index, :new)
+      on_mount: [{AuctionWeb.UserAuth, :ensure_authenticated}, AuctionWeb.RestoreLocale] do
+      live("/my_listings", MyListingsLive)
+      live("/listings/new", NewListingLive)
     end
   end
 
@@ -30,12 +34,22 @@ defmodule AuctionWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :home)
-
-    live("/listings", ListingsLive)
-    live("/listings/:id", ListingDetailsLive)
   end
 
-  scope "/admin", AuctionWeb do
+  scope "/:locale", AuctionWeb do
+    pipe_through(:browser)
+
+    get("/", PageController, :home)
+
+    live_session :default, on_mount: AuctionWeb.RestoreLocale do
+      live("/listings", ListingsLive)
+      live("/listings/:id", ListingDetailsLive)
+    end
+  end
+
+  ## Admin routes
+
+  scope "/:locale/admin", AuctionWeb do
     pipe_through(:browser)
 
     live("/listings", ListingLive.Index, :index)
@@ -70,7 +84,7 @@ defmodule AuctionWeb.Router do
 
   ## Authentication routes
 
-  scope "/", AuctionWeb do
+  scope "/:locale", AuctionWeb do
     pipe_through([:browser, :redirect_if_user_is_authenticated])
 
     live_session :redirect_if_user_is_authenticated,
@@ -84,7 +98,7 @@ defmodule AuctionWeb.Router do
     post("/users/log_in", UserSessionController, :create)
   end
 
-  scope "/", AuctionWeb do
+  scope "/:locale", AuctionWeb do
     pipe_through([:browser, :require_authenticated_user])
 
     live_session :require_authenticated_user,
@@ -94,7 +108,7 @@ defmodule AuctionWeb.Router do
     end
   end
 
-  scope "/", AuctionWeb do
+  scope "/:locale", AuctionWeb do
     pipe_through([:browser])
 
     delete("/users/log_out", UserSessionController, :delete)
@@ -104,5 +118,11 @@ defmodule AuctionWeb.Router do
       live("/users/confirm/:token", UserConfirmationLive, :edit)
       live("/users/confirm", UserConfirmationInstructionsLive, :new)
     end
+  end
+
+  scope "/:locale", AuctionWeb do
+    pipe_through([:browser])
+
+    live("/*path", NoPage)
   end
 end

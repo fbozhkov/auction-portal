@@ -6,9 +6,11 @@ defmodule AuctionWeb.UserSettingsLive do
   def render(assigns) do
     ~H"""
     <.header class="text-center">
-      Account Settings
+      <%= gettext("Account Settings") %>
       <:subtitle>
-        Manage your account email address and password settings
+        <%= gettext(
+          "Manage your account email address and password settings"
+        ) %>
       </:subtitle>
     </.header>
 
@@ -23,7 +25,7 @@ defmodule AuctionWeb.UserSettingsLive do
           <.input
             field={@email_form[:email]}
             type="email"
-            label="Email"
+            label={gettext("Email")}
             required
           />
           <.input
@@ -31,12 +33,14 @@ defmodule AuctionWeb.UserSettingsLive do
             name="current_password"
             id="current_password_for_email"
             type="password"
-            label="Current password"
+            label={gettext("Current password")}
             value={@email_form_current_password}
             required
           />
           <:actions>
-            <.button phx-disable-with="Changing...">Change Email</.button>
+            <.button phx-disable-with={gettext("Changing...")}>
+              <%= gettext("Change Email") %>
+            </.button>
           </:actions>
         </.simple_form>
       </div>
@@ -59,26 +63,26 @@ defmodule AuctionWeb.UserSettingsLive do
           <.input
             field={@password_form[:password]}
             type="password"
-            label="New password"
+            label={gettext("New password")}
             required
           />
           <.input
             field={@password_form[:password_confirmation]}
             type="password"
-            label="Confirm new password"
+            label={gettext("Confirm new password")}
           />
           <.input
             field={@password_form[:current_password]}
             name="current_password"
             type="password"
-            label="Current password"
+            label={gettext("Current password")}
             id="current_password_for_password"
             value={@current_password}
             required
           />
           <:actions>
-            <.button phx-disable-with="Changing...">
-              Change Password
+            <.button phx-disable-with={gettext("Changing...")}>
+              <%= gettext("Change Password") %>
             </.button>
           </:actions>
         </.simple_form>

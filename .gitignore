@@ -28,6 +28,9 @@ hello-*.tar
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
+# Ignore uploaded files in development.
+/priv/static/uploads/
+
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 
