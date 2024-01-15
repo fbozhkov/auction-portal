@@ -243,6 +243,15 @@ img {
     @apply max-w-md rounded bg-white overflow-hidden shadow-lg;
 }
 
+.grow {
+    transition: 0.5s ease;
+}
+
+.grow:hover {
+    transform: scale(1.05);
+    transition: 1s ease;
+}
+
 .card img {
     @apply w-full;
 }

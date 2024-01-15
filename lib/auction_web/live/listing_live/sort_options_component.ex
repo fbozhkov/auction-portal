@@ -2,19 +2,22 @@ defmodule AuctionWeb.SortOptionsComponent do
   use AuctionWeb, :live_component
 
   def render(assigns) do
-    sorting_options = [
+    assigns = assign(assigns, :sorting_options, [
       "#{gettext("ID")}": "id",
       "#{gettext("Make")}": "make",
       "#{gettext("Year")}": "year"
-    ]
+    ])
+
+
+
 
     ~H"""
     <div class="sort-options">
       <form phx-change="sort-by" phx-target={@myself}>
-        <label for="sort-by"><%= gettext("Sort by") %></label>
+        <label for="sort-by" class="hidden sm:block"><%= gettext("Sort by") %></label>
         <select name="sort-by">
           <%= Phoenix.HTML.Form.options_for_select(
-            sorting_options,
+            @sorting_options,
             @options.sort_by
           ) %>
         </select>

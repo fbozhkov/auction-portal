@@ -76,7 +76,9 @@ defmodule AuctionWeb.ListingsLive do
               @options.per_page
             ) %>
           </select>
-          <label for="per-page"><%= gettext("per page") %></label>
+          <label for="per-page" class="hidden sm:block">
+            <%= gettext("per page") %>
+          </label>
         </form>
         <.live_component
           module={SortOptionsComponent}
