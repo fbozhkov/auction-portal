@@ -4,8 +4,8 @@ defmodule Auction.Repo.Migrations.CreateBids do
   def change do
     create table(:bids) do
       add :bid, :integer
-      add :user_id, references(:users, on_delete: :delete_all)
-      add :listing_id, references(:listings, on_delete: :delete_all)
+      add :user_id, references(:users, on_delete: :nothing)
+      add :listing_id, references(:listings, on_delete: :nothing)
 
       timestamps()
     end

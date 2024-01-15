@@ -7,9 +7,9 @@ defmodule AuctionWeb.UserConfirmationInstructionsLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        <%= gettext("No confirmation instructions received?") %>
+        No confirmation instructions received?
         <:subtitle>
-          <%= gettext("We'll send a new confirmation link to your inbox") %>
+          We'll send a new confirmation link to your inbox
         </:subtitle>
       </.header>
 
@@ -25,15 +25,15 @@ defmodule AuctionWeb.UserConfirmationInstructionsLive do
           required
         />
         <:actions>
-          <.button phx-disable-with={gettext("Sending...")} class="w-full">
+          <.button phx-disable-with="Sending..." class="w-full">
             Resend confirmation instructions
           </.button>
         </:actions>
       </.simple_form>
 
       <p class="text-center mt-4">
-        <.link href={~p"/users/register"}><%= gettext("Register") %></.link>
-        | <.link href={~p"/users/log_in"}><%= gettext("Log in") %></.link>
+        <.link href={~p"/users/register"}>Register</.link>
+        | <.link href={~p"/users/log_in"}>Log in</.link>
       </p>
     </div>
     """
@@ -52,9 +52,7 @@ defmodule AuctionWeb.UserConfirmationInstructionsLive do
     end
 
     info =
-      gettext(
-        "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
-      )
+      "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
 
     {:noreply,
      socket

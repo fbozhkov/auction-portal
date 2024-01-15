@@ -8,16 +8,16 @@ defmodule AuctionWeb.UserRegistrationLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        <%= gettext("Register for an account") %>
+        Register for an account
         <:subtitle>
-          <%= gettext("Already registered?") %>
+          Already registered?
           <.link
             navigate={~p"/users/log_in"}
             class="font-semibold text-brand hover:underline"
           >
-            <%= gettext("Sign in") %>
+            Sign in
           </.link>
-          <%= gettext("to your account now.") %>
+          to your account now.
         </:subtitle>
       </.header>
 
@@ -31,30 +31,20 @@ defmodule AuctionWeb.UserRegistrationLive do
         method="post"
       >
         <.error :if={@check_errors}>
-          <%= gettext(
-            "Oops, something went wrong! Please check the errors below."
-          ) %>
+          Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input
-          field={@form[:email]}
-          type="email"
-          label={gettext("Email")}
-          required
-        />
+        <.input field={@form[:email]} type="email" label="Email" required />
         <.input
           field={@form[:password]}
           type="password"
-          label={gettext("Password")}
+          label="Password"
           required
         />
 
         <:actions>
-          <.button
-            phx-disable-with={gettext("Creating account...")}
-            class="w-full"
-          >
-            <%= gettext("Create an account") %>
+          <.button phx-disable-with="Creating account..." class="w-full">
+            Create an account
           </.button>
         </:actions>
       </.simple_form>

@@ -4,7 +4,6 @@ defmodule AuctionWeb.PageController do
   def home(conn, _params) do
     # The home page is often custom made,
     # so skip the default app layout.
-    current_url = conn.path_info
-    render(conn, :home, layout: false, current_url: current_url)
+    render(conn, :home, layout: false)
   end
 end

@@ -20,11 +20,6 @@ config :auction, AuctionWeb.Endpoint,
   pubsub_server: Auction.PubSub,
   live_view: [signing_salt: "M/qsX9W0"]
 
-# Configures Gettext locales
-config :auction, AuctionWeb.Gettext,
-  default_locale: "en",
-  locales: ~w(en bg)
-
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

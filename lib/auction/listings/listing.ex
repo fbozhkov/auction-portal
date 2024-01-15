@@ -14,10 +14,7 @@ defmodule Auction.Listings.Listing do
     field(:transmission, :string)
     field(:year, :integer)
     field(:current_bid, :integer)
-    field(:seller_id, :integer)
-    has_many :bids, Auction.Listings.Bid, on_delete: :delete_all
-    has_many :images, Auction.Listings.Image, on_delete: :delete_all
-    many_to_many :users, Auction.Users.User, join_through: Auction.Users.UserShortlist
+    has_many(:bids, Auction.Listings.Bid)
 
     timestamps()
   end
@@ -36,8 +33,7 @@ defmodule Auction.Listings.Listing do
       :color,
       :end_date,
       :minimum_price,
-      :current_bid,
-      :seller_id
+      :current_bid
     ])
     |> validate_required([
       :make,
@@ -50,8 +46,7 @@ defmodule Auction.Listings.Listing do
       :color,
       :end_date,
       :minimum_price,
-      :current_bid,
-      :seller_id
+      :current_bid
     ])
   end
 end

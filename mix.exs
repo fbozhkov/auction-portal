@@ -19,7 +19,7 @@ defmodule Auction.MixProject do
   def application do
     [
       mod: {Auction.Application, []},
-      extra_applications: [:logger, :runtime_tools, :set_locale]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -51,8 +51,7 @@ defmodule Auction.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:timex, "~> 3.7"},
-      {:set_locale, "~> 0.2.1"}
+      {:timex, "~> 3.7"}
     ]
   end
 

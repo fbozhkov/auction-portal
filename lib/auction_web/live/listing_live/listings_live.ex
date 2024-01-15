@@ -1,18 +1,17 @@
 defmodule AuctionWeb.ListingsLive do
   use AuctionWeb, :live_view
 
-  alias AuctionWeb.SortOptionsComponent
   alias AuctionWeb.ListingCardComponent
   alias Auction.Listings
 
-  def mount(%{"locale" => locale}, _session, socket) do
-    socket =
-      assign(socket,
-        loading: false,
-        locale: locale
-      )
+  def mount(_params, _session, socket) do
+    # if connected?(socket) do
+    #   :timer.send_interval(1000, self(), :tick)
+    # end
 
-    {:ok, socket}
+    # socket = assign(socket, :time_left, nil)
+
+    {:ok, assign(socket, :listings, [])}
   end
 
   def handle_params(params, _uri, socket) do
@@ -22,7 +21,6 @@ defmodule AuctionWeb.ListingsLive do
     page = param_to_integer(params["page"], 1)
 
     options = %{
-      keyword: "",
       sort_by: sort_by,
       sort_order: sort_order,
       per_page: per_page,
@@ -30,7 +28,6 @@ defmodule AuctionWeb.ListingsLive do
     }
 
     listings = Listings.list_listings(options)
-    socket = assign(socket, listings: listings, options: options)
 
     socket =
       assign(socket,
@@ -47,27 +44,7 @@ defmodule AuctionWeb.ListingsLive do
   def render(assigns) do
     ~H"""
     <div id="listings">
-      <div class="search">
-        <form phx-submit="search" class="w-full lg:w-auto">
-          <input
-            class="w-full"
-            type="text"
-            name="keyword"
-            value={@options.keyword}
-            placeholder={gettext("Keyword")}
-            autofocus
-            autocomplete="off"
-            list="matches"
-            phx-debounce="500"
-          />
-
-          <button>
-            <img src="/images/search.svg" />
-          </button>
-        </form>
-
-        <.loader visable={@loading} />
-      </div>
+      <h3>All Listings</h3>
       <div class="sort-filter">
         <form phx-change="select-per-page">
           <select name="per-page">
@@ -76,110 +53,116 @@ defmodule AuctionWeb.ListingsLive do
               @options.per_page
             ) %>
           </select>
-          <label for="per-page"><%= gettext("per page") %></label>
+          <label for="per-page">per page</label>
         </form>
-        <.live_component
-          module={SortOptionsComponent}
-          id="sort-options"
-          options={@options}
-          locale={@locale}
-        />
+        <div class="sort-options">
+          <form phx-change="sort-by">
+            <label for="sort-by">Sort by</label>
+            <select name="sort-by">
+              <%= Phoenix.HTML.Form.options_for_select(
+                ["id", "make", "year"],
+                @options.sort_by
+              ) %>
+            </select>
+          </form>
+          <div class="sort-order">
+            <.sort_link
+              options={@options}>
+              <%= @options.sort_order %>
+            </.sort_link>
+          </div>
+        </div>
       </div>
       <div class="listings">
         <%= for listing <- @listings do %>
           <.live_component
-            module={ListingCardComponent}
-            id={listing.id}
-            listing={listing}
-            locale={@locale}
+          module={ListingCardComponent}
+          id={listing.id}
+          listing={listing}
           />
         <% end %>
       </div>
 
-      <div class="footer">
-        <div class="pagination">
-          <.link
-            :if={@options.page > 1}
-            navigate={
-              ~p"/#{@locale}/listings?#{%{@options | page: @options.page - 1}}"
-            }
-          >
-            <%= gettext("Previous") %>
-          </.link>
+    <div class="footer">
+      <div class="pagination">
+        <.link
+          :if={@options.page > 1}
+          navigate={
+            ~p"/listings?#{%{@options | page: @options.page - 1}}"
+          }
+        >
+          Previous
+        </.link>
 
-          <.link
-            :for={{page_number, current_page?} <- @pages}
-            navigate={
-              ~p"/#{@locale}/listings?#{%{@options | page: page_number}}"
-            }
-            class={if current_page?, do: "active"}
-          >
-            <%= page_number %>
-          </.link>
+        <.link
+          :for={{page_number, current_page?} <- @pages}
+          navigate={~p"/listings?#{%{@options | page: page_number}}"}
+          class={if current_page?, do: "active"}
+        >
+          <%= page_number %>
+        </.link>
 
-          <.link
-            :if={@more_pages?}
-            navigate={
-              ~p"/#{@locale}/listings?#{%{@options | page: @options.page + 1}}"
-            }
-          >
-            <%= gettext("Next") %>
-          </.link>
-        </div>
+        <.link
+          :if={@more_pages?}
+          navigate={
+            ~p"/listings?#{%{@options | page: @options.page + 1}}"
+          }
+        >
+          Next
+        </.link>
       </div>
+    </div>
+
     </div>
     """
   end
 
-  def handle_event("search", %{"keyword" => keyword}, socket) do
-    send(self(), {:run_search, keyword})
-    params = %{socket.assigns.options | keyword: keyword}
-    locale = socket.assigns.locale
-    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
+  def sort_link(assigns) do
+    caret_or_v =
+      if assigns.options.sort_order == :asc do
+        "👆"
+      else
+        "👇"
+      end
+    params = %{
+      assigns.options
+      | sort_order: next_sort_order(assigns.options.sort_order)
+    }
 
-    socket =
-      assign(socket,
-        listings: [],
-        loading: true
-      )
+    assigns = assign(assigns, params: params)
 
-    {:noreply, socket}
+
+
+    ~H"""
+    <.link patch={~p"/listings?#{@params}"}>
+      <%= caret_or_v %>
+      <%= render_slot(@inner_block) %>
+    </.link>
+    """
   end
 
   def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
     params = %{socket.assigns.options | per_page: per_page}
-    locale = socket.assigns.locale
-    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
+
+    socket = push_patch(socket, to: ~p"/listings?#{params}")
 
     {:noreply, socket}
   end
 
-  def handle_info({:sort_option_changed, params}, socket) do
-    locale = socket.assigns.locale
-    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
+  def handle_event("sort-by", %{"sort-by" => sort_by}, socket) do
+    sort_by = String.downcase(sort_by)
+    params = %{socket.assigns.options | sort_by: sort_by}
+
+    socket = push_patch(socket, to: ~p"/listings?#{params}")
 
     {:noreply, socket}
   end
 
-  def handle_info({:sort_order_changed, params}, socket) do
-    locale = socket.assigns.locale
-    socket = push_patch(socket, to: ~p"/#{locale}/listings?#{params}")
-
-    {:noreply, socket}
-  end
-
-  def handle_info({:run_search, keyword}, socket) do
-    socket =
-      assign(socket,
-        listings: Listings.search_by_keyword(keyword),
-        loading: false,
-        listings_count: length(Listings.search_by_keyword(keyword)),
-        more_pages?:
-          more_pages?(socket.assigns.options, length(Listings.search_by_keyword(keyword))),
-        pages: pages(socket.assigns.options, length(Listings.search_by_keyword(keyword)))
-      )
-
-    {:noreply, socket}
+  defp next_sort_order(sort_order) do
+    case sort_order do
+      :asc -> :desc
+      :desc -> :asc
+    end
   end
 
   defp valid_sort_by(%{"sort_by" => sort_by})
@@ -208,8 +191,8 @@ defmodule AuctionWeb.ListingsLive do
     end
   end
 
-  def more_pages?(options, listing_count) do
-    options.page * options.per_page < listing_count
+  def more_pages?(options, pizza_order_count) do
+    options.page * options.per_page < pizza_order_count
   end
 
   defp pages(options, donation_count) do
@@ -223,4 +206,6 @@ defmodule AuctionWeb.ListingsLive do
       end
     end
   end
+
+
 end

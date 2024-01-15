@@ -14,8 +14,6 @@ defmodule Auction.Application do
       Auction.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: Auction.PubSub},
-      # Start the Auction Manager
-      {Auction.AuctionManager, []},
       # Start Finch
       {Finch, name: Auction.Finch},
       # Start the Endpoint (http/https)
