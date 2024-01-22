@@ -70,4 +70,76 @@ defmodule AuctionWeb.CustomComponents do
     rest_of_url = Enum.slice(parts, 1..-1) |> Enum.join("/")
     "/#{locale}/#{rest_of_url}"
   end
+
+  @doc """
+  Renders a button.
+
+  ## Examples
+
+      <.cbutton>Send!</.cbutton>
+      <.cbutton phx-click="go" class="ml-2">Send!</.cbutton>
+  """
+  attr(:type, :string, default: nil)
+  attr(:class, :string, default: nil)
+  attr(:rest, :global, include: ~w(disabled form name value))
+  attr(:bgg_color, :string, default: "bg-green-200")
+
+  slot(:inner_block, required: true)
+
+  def tbutton(assigns) do
+    assigns = assign_new(assigns, :bg_color, fn -> @bgg_color end)
+
+    ~H"""
+    <button
+      type={@type}
+      class={[
+        @class, @bgg_color
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
+  end
+
+
+  attr(:type, :string, default: nil)
+  attr(:class, :string, default: nil)
+  attr(:rest, :global, include: ~w(disabled form name value))
+  attr(:style, :string, default: nil)
+  attr(:bgr_color, :string, default: "blue")
+  attr(:size, :string, default: "medium")
+
+  slot(:inner_block, required: true)
+
+  def cbutton(assigns) do
+
+    ~H"""
+    <button
+      type={@type}
+      class={[
+
+        @class
+      ]}
+      style={["
+        background-color: #{@bgr_color};
+        padding: #{props_map(@size)};
+        border-radius: 4px;
+        #{@style}
+        "]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </button>
+    """
+  end
+
+  defp props_map(key) do
+    %{
+      "small" => "4px",
+      "medium" => "8px",
+      "large" => "12px",
+    }[key]
+  end
+
 end

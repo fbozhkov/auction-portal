@@ -44,6 +44,7 @@ defmodule AuctionWeb.Router do
     live_session :default, on_mount: AuctionWeb.RestoreLocale do
       live("/listings", ListingsLive)
       live("/listings/:id", ListingDetailsLive)
+      live("/css", CssLive)
     end
   end
 

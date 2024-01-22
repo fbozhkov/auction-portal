@@ -1,0 +1,13 @@
+
+.custom-btn {
+    border-radius: 4px;
+    background-color: blue;
+    color: white;
+    border-radius: 4px;
+    padding: 8px
+    
+}
+
+.custom-btn:hover {
+    opacity: 70%;
+}

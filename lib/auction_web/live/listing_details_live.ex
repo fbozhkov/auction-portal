@@ -123,7 +123,7 @@ defmodule AuctionWeb.ListingDetailsLive do
                   <p class="dollar">$</p>
                   <input value={@bid} name="bid" type="text" placeholder="0" />
                 </div>
-                <.button class="btn"><%= gettext("Place Bid") %></.button>
+                <.button class="custom-btn btn"><%= gettext("Place Bid") %></.button>
               </form>
             <% else %>
               <p>
